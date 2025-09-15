@@ -1,0 +1,59 @@
+import { LitElement, html, css } from 'lit';
+
+/**
+ * [COMPONENT_DESCRIPTION]
+ *
+ * @element m-[COMPONENT_NAME]
+ * @slot - [DEFAULT_SLOT_DESCRIPTION]
+ * 
+ * @example
+ * ```html
+ * <m-[COMPONENT_NAME] [EXAMPLE_ATTRIBUTE]="value">
+ *   [EXAMPLE_CONTENT]
+ * </m-[COMPONENT_NAME]>
+ * ```
+ */
+export class M[COMPONENT_NAME_PASCAL] extends LitElement {
+  static defaultTagName = 'm-[COMPONENT_NAME]';
+
+  static styles = css`
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+
+    /* Component-specific styles */
+  `;
+
+  static properties = {
+    /**
+     * [PROPERTY_DESCRIPTION]
+     * @type {string}
+     */
+    [PROPERTY_NAME]: { type: String, attribute: '[ATTRIBUTE_NAME]' },
+  };
+
+  constructor() {
+    super();
+    this.[PROPERTY_NAME] = '[DEFAULT_VALUE]';
+  }
+
+  render() {
+    return html`
+      <!-- Component template -->
+      <slot></slot>
+    `;
+  }
+}
+
+/**
+ * Register the M[COMPONENT_NAME_PASCAL] component
+ * @param {string} [tagName=M[COMPONENT_NAME_PASCAL].defaultTagName] - The tag name to register the component as
+ * @returns {string} The registered tag name
+ */
+export function register(tagName = M[COMPONENT_NAME_PASCAL].defaultTagName) {
+  if (!customElements.get(tagName)) {
+    customElements.define(tagName, M[COMPONENT_NAME_PASCAL]);
+  }
+  return tagName;
+}

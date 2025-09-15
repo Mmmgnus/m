@@ -1,0 +1,92 @@
+# M-[COMPONENT_NAME]
+
+[COMPONENT_DESCRIPTION]
+
+## Usage
+
+### Basic Usage
+```html
+<m-[COMPONENT_NAME]>
+  [EXAMPLE_CONTENT]
+</m-[COMPONENT_NAME]>
+```
+
+### With Attributes
+```html
+<m-[COMPONENT_NAME] [ATTRIBUTE_NAME]="value">
+  [EXAMPLE_CONTENT]
+</m-[COMPONENT_NAME]>
+```
+
+## Installation
+
+### ES Modules
+```javascript
+import { register } from '@frdh/m-components/[COMPONENT_NAME]';
+register();
+```
+
+### Auto-register (Development)
+```javascript
+import '@frdh/m-components/auto-register';
+```
+
+## API
+
+### Properties
+
+| Property | Attribute | Type | Default | Description |
+|----------|-----------|------|---------|-------------|
+| `[PROPERTY_NAME]` | `[ATTRIBUTE_NAME]` | `string` | `'[DEFAULT_VALUE]'` | [PROPERTY_DESCRIPTION] |
+
+### Slots
+
+| Slot | Description |
+|------|-------------|
+| (default) | [DEFAULT_SLOT_DESCRIPTION] |
+
+### CSS Custom Properties
+
+| Property | Description | Default |
+|----------|-------------|---------|
+| `--m-[COMPONENT_NAME]-[PROPERTY]` | [CSS_PROPERTY_DESCRIPTION] | `[DEFAULT_CSS_VALUE]` |
+
+### CSS Parts
+
+| Part | Description |
+|------|-------------|
+| `[PART_NAME]` | [PART_DESCRIPTION] |
+
+## Examples
+
+### [EXAMPLE_TITLE_1]
+```html
+<m-[COMPONENT_NAME] [EXAMPLE_ATTRIBUTE_1]="value">
+  [EXAMPLE_CONTENT_1]
+</m-[COMPONENT_NAME]>
+```
+
+### [EXAMPLE_TITLE_2]
+```html
+<m-[COMPONENT_NAME] [EXAMPLE_ATTRIBUTE_2]="value">
+  [EXAMPLE_CONTENT_2]
+</m-[COMPONENT_NAME]>
+```
+
+## Accessibility
+
+- [ACCESSIBILITY_FEATURE_1]
+- [ACCESSIBILITY_FEATURE_2]
+- [ACCESSIBILITY_FEATURE_3]
+
+## Browser Support
+
+All modern browsers that support:
+- Custom Elements v1
+- Shadow DOM v1
+- ES Modules
+
+## Related Components
+
+- [`m-[RELATED_COMPONENT_1]`](./[RELATED_COMPONENT_1].md)
+- [`m-[RELATED_COMPONENT_2]`](./[RELATED_COMPONENT_2].md)

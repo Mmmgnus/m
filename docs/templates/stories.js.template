@@ -1,0 +1,123 @@
+/**
+ * Stories/examples for m-[COMPONENT_NAME] component
+ * 
+ * This file contains example configurations for the component
+ * that can be used for documentation generation or testing
+ */
+
+import { register } from '../../packages/components/src/[COMPONENT_NAME]/m-[COMPONENT_NAME].js';
+
+// Register the component
+register();
+
+/**
+ * Default story showing basic usage
+ */
+export const Default = {
+  name: 'Default',
+  description: 'Basic [COMPONENT_NAME] with default settings',
+  template: `
+    <m-[COMPONENT_NAME]>
+      [EXAMPLE_CONTENT]
+    </m-[COMPONENT_NAME]>
+  `,
+  props: {}
+};
+
+/**
+ * Story with custom properties
+ */
+export const WithProperties = {
+  name: 'With Properties',
+  description: '[COMPONENT_NAME] with custom property values',
+  template: `
+    <m-[COMPONENT_NAME] [ATTRIBUTE_NAME]="custom-value">
+      [EXAMPLE_CONTENT]
+    </m-[COMPONENT_NAME]>
+  `,
+  props: {
+    [PROPERTY_NAME]: 'custom-value'
+  }
+};
+
+/**
+ * Story showing different states
+ */
+export const States = {
+  name: 'Different States',
+  description: 'Various states of the [COMPONENT_NAME] component',
+  template: `
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <div>
+        <h4>Normal</h4>
+        <m-[COMPONENT_NAME]>
+          [EXAMPLE_CONTENT]
+        </m-[COMPONENT_NAME]>
+      </div>
+      
+      <div>
+        <h4>With Attribute</h4>
+        <m-[COMPONENT_NAME] [ATTRIBUTE_NAME]="value">
+          [EXAMPLE_CONTENT]
+        </m-[COMPONENT_NAME]>
+      </div>
+    </div>
+  `,
+  props: {}
+};
+
+/**
+ * Interactive story for testing
+ */
+export const Interactive = {
+  name: 'Interactive',
+  description: 'Interactive example for testing component behavior',
+  template: `
+    <div>
+      <m-[COMPONENT_NAME] id="interactive-component">
+        [EXAMPLE_CONTENT]
+      </m-[COMPONENT_NAME]>
+      
+      <div style="margin-top: 1rem;">
+        <label>
+          <input type="checkbox" id="toggle-property"> 
+          Toggle [PROPERTY_NAME]
+        </label>
+      </div>
+    </div>
+    
+    <script>
+      const component = document.getElementById('interactive-component');
+      const toggle = document.getElementById('toggle-property');
+      
+      toggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          component.setAttribute('[ATTRIBUTE_NAME]', 'active');
+        } else {
+          component.removeAttribute('[ATTRIBUTE_NAME]');
+        }
+      });
+    </script>
+  `,
+  props: {}
+};
+
+/**
+ * All stories for this component
+ */
+export const stories = [
+  Default,
+  WithProperties,
+  States,
+  Interactive
+];
+
+/**
+ * Component metadata for documentation generation
+ */
+export const meta = {
+  title: 'M-[COMPONENT_NAME]',
+  component: 'm-[COMPONENT_NAME]',
+  description: '[COMPONENT_DESCRIPTION]',
+  stories
+};

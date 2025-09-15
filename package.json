@@ -1,0 +1,34 @@
+{
+  "name": "m-design-system",
+  "description": "M Design System - Complete design system with components, tokens, and documentation",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "workspaces": "npm ls --workspaces",
+    "workspaces:list": "npm ls --workspaces --depth=0",
+    "build": "npm run build --workspaces --if-present",
+    "dev": "npm run dev --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "deps:update": "npm update --workspaces",
+    "deps:outdated": "npm outdated --workspaces"
+  },
+  "keywords": [
+    "design-system",
+    "web-components",
+    "design-tokens",
+    "lit"
+  ],
+  "author": "Magnus Fredlundh (magnus.dev)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mmmgnus/m.git"
+  },
+  "homepage": "https://github.com/Mmmgnus/m#readme"
+}

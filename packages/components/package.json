@@ -1,0 +1,30 @@
+{
+  "name": "@frdh/m-components",
+  "version": "0.0.1",
+  "description": "M Design System - Web Components",
+  "type": "module",
+  "exports": {
+    "./button": "./src/button/m-button.js",
+    "./auto-register": "./src/auto-register.js"
+  },
+  "files": [
+    "src/",
+    "types/",
+    "custom-elements.json"
+  ],
+  "scripts": {
+    "types": "tsc --allowJs --declaration --emitDeclarationOnly --outDir types",
+    "analyze": "cem analyze --litelement --outdir .",
+    "build": "npm run types && npm run analyze"
+  },
+  "dependencies": {
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.9.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": ["web-components", "design-system"],
+  "author": "Magnus Fredlundh (magnus.dev)",
+  "license": "ISC"
+}
