@@ -1,0 +1,20 @@
+{
+  "name": "@frdh/m-docs",
+  "version": "0.0.1",
+  "description": "M Design System Documentation Site",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate.js",
+    "serve": "npx serve dist",
+    "dev": "npm run build && npm run serve"
+  },
+  "dependencies": {
+    "@frdh/m-components": "*"
+  },
+  "keywords": [
+    "design-system",
+    "documentation"
+  ],
+  "author": "Magnus Fredlundh (magnus.dev)",
+  "license": "ISC"
+}

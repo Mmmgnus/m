@@ -24,7 +24,7 @@ m/
 │   │   └── custom-elements.json
 │   └── css/             # CSS utilities & tokens (planned)
 ├── apps/
-│   ├── docs/            # Documentation site (planned)
+│   ├── docs/            # Documentation site
 │   └── playground/      # Interactive examples (planned)
 ├── docs/                # Project documentation
 │   ├── ARCHITECTURE.md  # Technical decisions & patterns
@@ -121,6 +121,28 @@ import '@frdh/m-components/auto-register';
    ```bash
    npm run build
    ```
+
+## Documentation Site
+
+The design system includes a CEM-based documentation site that automatically generates pages from the Custom Elements Manifest.
+
+```bash
+# Build the documentation site
+cd apps/docs
+npm run build
+
+# Serve locally
+npm run serve
+
+# Build and serve in one command
+npm run dev
+```
+
+The documentation site:
+- Automatically reads `custom-elements.json` from the components package
+- Generates static HTML pages with component API documentation
+- Includes live, interactive component examples
+- Requires no build step to view (pure HTML/CSS/JS)
 
 ## Scripts
 
