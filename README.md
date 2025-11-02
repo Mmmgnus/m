@@ -127,14 +127,12 @@ import '@frdh/m-components/auto-register';
 The design system includes a CEM-based documentation site that automatically generates pages from the Custom Elements Manifest.
 
 ```bash
-# Build the documentation site
+# From the project root:
+npm run dev         # Build and serve the docs site
+npm run docs:build  # Just build the docs
+
+# Or from apps/docs:
 cd apps/docs
-npm run build
-
-# Serve locally
-npm run serve
-
-# Build and serve in one command
 npm run dev
 ```
 
