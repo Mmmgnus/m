@@ -144,4 +144,105 @@ While maintaining no-build development:
 3. **Tree Shaking**: Only register components you use
 4. **Testing**: Easier to test components in isolation
 
+## Form Components Architecture
+
+### Light DOM Pattern for Forms
+
+Form components in M Design System use **light DOM** (no shadow DOM) to ensure perfect accessibility and standards compliance.
+
+#### Why Light DOM for Forms?
+
+**Accessibility Requirements:**
+- Labels must connect to inputs via `for` attribute
+- ARIA references (`aria-describedby`, `aria-labelledby`) must work across elements
+- Screen readers need clean semantic structure
+- Form validation and submission must work natively
+
+**Shadow DOM Limitations:**
+- ID references don't cross shadow boundaries
+- `<label for="id">` can't reference input inside shadow DOM
+- `aria-describedby="id"` can't reference external elements
+- Creates unnecessary complexity in accessibility tree
+
+#### Form Component Pattern
+
+```javascript
+export class MInput extends LitElement {
+  // Render in light DOM
+  createRenderRoot() {
+    return this; // No shadow DOM
+  }
+  
+  render() {
+    return html`
+      <style>
+        /* Scoped styles using BEM naming */
+        .m-input { }
+        .m-input__label { }
+      </style>
+      
+      <div class="m-input">
+        ${this.label ? html`<label class="m-input__label">${this.label}</label>` : ''}
+        <slot></slot>
+      </div>
+    `;
+  }
+}
+```
+
+#### Style Encapsulation Strategy
+
+Without shadow DOM, we use:
+1. **BEM Naming Convention**: `.m-component__element--modifier`
+2. **Inline Styles**: `<style>` tags in template (scoped per instance)
+3. **CSS Custom Properties**: For theming and design tokens
+4. **Namespaced Classes**: `m-` prefix prevents global conflicts
+
+#### Component Comparison
+
+| Component Type | DOM Strategy | Use Case |
+|----------------|--------------|----------|
+| **Form Components** | Light DOM | button, input, checkbox, select, textarea, radio |
+| **Presentational** | Shadow DOM | card, badge, avatar, chip, spinner |
+| **Interactive Non-Form** | Shadow DOM | modal, dropdown, tooltip, accordion |
+| **Layout** | Shadow DOM | container, grid, stack |
+
+#### Benefits of This Approach
+
+**Accessibility:**
+- ✅ Perfect label/input connections
+- ✅ All ARIA attributes work without limitations
+- ✅ Screen readers work perfectly
+- ✅ Keyboard navigation works natively
+
+**Standards Compliance:**
+- ✅ Uses native HTML form behavior
+- ✅ No shadow DOM workarounds needed
+- ✅ WCAG AAA compliant out of the box
+- ✅ Works with any assistive technology
+
+**Developer Experience:**
+- ✅ Familiar HTML patterns
+- ✅ External labels "just work"
+- ✅ Form validation works natively
+- ✅ No surprise behaviors
+
+**Trade-offs:**
+- ⚠️ Less style encapsulation (mitigated by BEM)
+- ⚠️ Inline styles add some HTML weight
+- ✅ But: Accessibility is non-negotiable
+
+### Form Component List
+
+All these components use light DOM:
+- `m-button` - Button wrapper with optional label
+- `m-input` - Text input wrapper with label, error, help text
+- `m-textarea` - Textarea wrapper with label, error, help text
+- `m-checkbox` - Checkbox wrapper with label
+- `m-radio` - Radio button wrapper with label
+- `m-select` - Select dropdown wrapper with label
+- `m-form` - Form container with validation (future)
+
+---
+
 This architecture supports both simple script tag usage and sophisticated application integration while maintaining the benefits of modern development tooling.

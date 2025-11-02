@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Evaluation - Extended Test Suite</title>
+  <style>
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+
+    h1, h2, h3 { color: #333; }
+    h1 { border-bottom: 3px solid #0066cc; padding-bottom: 0.5rem; }
+    h2 { margin-top: 3rem; border-bottom: 2px solid #ddd; padding-bottom: 0.5rem; }
+    
+    .test-group {
+      background: white;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .test-row {
+      display: grid;
+      grid-template-columns: 200px repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 4px;
+      align-items: center;
+    }
+
+    .test-label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    form {
+      border: 2px dashed #ccc;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 4px;
+    }
+
+    .output {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      min-height: 2rem;
+    }
+
+    /* Design tokens */
+    :root {
+      --m-color-primary: #0066cc;
+      --m-color-primary-hover: #0052a3;
+      --m-color-secondary: #6c757d;
+      --m-color-text: white;
+      --m-font-family: system-ui, sans-serif;
+      --m-font-size-base: 1rem;
+      --m-spacing-sm: 0.5rem;
+      --m-spacing-md: 1rem;
+      --m-border-radius: 0.25rem;
+      --m-transition-duration: 0.2s;
+    }
+
+    /* Custom theme zone */
+    .custom-theme {
+      --m-color-primary: #9c27b0;
+      --m-color-primary-hover: #7b1fa2;
+      --m-color-text: white;
+    }
+
+    /* Label for ARIA tests */
+    .sr-only {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .instructions {
+      background: #e7f3ff;
+      border-left: 4px solid #0066cc;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
+    input[type="text"], input[type="email"] {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      width: 100%;
+    }
+
+    input:invalid {
+      border-color: #dc3545;
+    }
+
+    code {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    .note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+    }
+
+    .event-log {
+      max-height: 200px;
+      overflow-y: auto;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .event-log-entry {
+      margin: 0.25rem 0;
+    }
+
+    .event-log-entry.click { color: #4ec9b0; }
+    .event-log-entry.keyboard { color: #dcdcaa; }
+    .event-log-entry.focus { color: #9cdcfe; }
+    .event-log-entry.form { color: #ce9178; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Button Evaluation - Extended Test Suite</h1>
+
+  <div class="instructions">
+    <h3>How to Use This Test Suite</h3>
+    <ul>
+      <li><strong>Visual:</strong> Compare button appearance across all three approaches</li>
+      <li><strong>Keyboard:</strong> Use Tab to navigate, Space/Enter to activate</li>
+      <li><strong>Screen Reader:</strong> Enable VoiceOver (⌘+F5) to test announcements</li>
+      <li><strong>DevTools:</strong> Inspect accessibility tree and ARIA attributes</li>
+      <li><strong>Event Log:</strong> Watch the event log at the bottom for debugging</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 1: Basic Button Variations -->
+  <!-- ============================================ -->
+  <h2>1. Basic Button Variations</h2>
+  <div class="test-group">
+    <div class="test-row">
+      <div class="test-label">Normal Button</div>
+      <div><m-button-custom type="button">Custom</m-button-custom></div>
+      <div><m-button-shadow type="button">Shadow</m-button-shadow></div>
+      <div><m-button-slot><button type="button">Slot</button></m-button-slot></div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">Disabled Button</div>
+      <div><m-button-custom type="button" disabled>Custom</m-button-custom></div>
+      <div><m-button-shadow type="button" disabled>Shadow</m-button-shadow></div>
+      <div><m-button-slot><button type="button" disabled>Slot</button></m-button-slot></div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">Long Text</div>
+      <div><m-button-custom type="button">Very Long Button Text Here</m-button-custom></div>
+      <div><m-button-shadow type="button">Very Long Button Text Here</m-button-shadow></div>
+      <div><m-button-slot><button type="button">Very Long Button Text Here</button></m-button-slot></div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">With Emoji</div>
+      <div><m-button-custom type="button">💾 Save</m-button-custom></div>
+      <div><m-button-shadow type="button">💾 Save</m-button-shadow></div>
+      <div><m-button-slot><button type="button">💾 Save</button></m-button-slot></div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 2: ARIA Attributes -->
+  <!-- ============================================ -->
+  <h2>2. ARIA Attributes</h2>
+  <div class="test-group">
+    <p><strong>Test:</strong> Inspect with DevTools Accessibility panel. Use VoiceOver to verify announcements.</p>
+
+    <div class="test-row">
+      <div class="test-label">aria-label</div>
+      <div><m-button-custom type="button" aria-label="Close dialog">×</m-button-custom></div>
+      <div><m-button-shadow type="button" aria-label="Close dialog">×</m-button-shadow></div>
+      <div><m-button-slot><button type="button" aria-label="Close dialog">×</button></m-button-slot></div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">aria-labelledby</div>
+      <div><m-button-custom type="button" aria-labelledby="label1">Action</m-button-custom></div>
+      <div><m-button-shadow type="button" aria-labelledby="label2">Action</m-button-shadow></div>
+      <div><m-button-slot><button type="button" aria-labelledby="label3">Action</button></m-button-slot></div>
+    </div>
+
+    <span id="label1" class="sr-only">Approach 1 labeled button</span>
+    <span id="label2" class="sr-only">Approach 2 labeled button</span>
+    <span id="label3" class="sr-only">Approach 3 labeled button</span>
+
+    <div class="test-row">
+      <div class="test-label">aria-describedby</div>
+      <div><m-button-custom type="button" aria-describedby="desc1">Help</m-button-custom></div>
+      <div><m-button-shadow type="button" aria-describedby="desc2">Help</m-button-shadow></div>
+      <div><m-button-slot><button type="button" aria-describedby="desc3">Help</button></m-button-slot></div>
+    </div>
+
+    <span id="desc1" class="sr-only">Opens help documentation for Approach 1</span>
+    <span id="desc2" class="sr-only">Opens help documentation for Approach 2</span>
+    <span id="desc3" class="sr-only">Opens help documentation for Approach 3</span>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 3: Form Integration - Basic -->
+  <!-- ============================================ -->
+  <h2>3. Form Integration - Basic</h2>
+  <div class="test-group">
+    <div class="test-row">
+      <div class="test-label">Submit Form</div>
+      <div>
+        <form id="form-custom-submit" onsubmit="logFormEvent(event, 'Custom Submit'); return false;">
+          <m-button-custom type="submit">Submit</m-button-custom>
+          <div class="output" id="out-custom-submit"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-shadow-submit" onsubmit="logFormEvent(event, 'Shadow Submit'); return false;">
+          <m-button-shadow type="submit">Submit</m-button-shadow>
+          <div class="output" id="out-shadow-submit"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-slot-submit" onsubmit="logFormEvent(event, 'Slot Submit'); return false;">
+          <m-button-slot><button type="submit">Submit</button></m-button-slot>
+          <div class="output" id="out-slot-submit"></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">Reset Form</div>
+      <div>
+        <form id="form-custom-reset">
+          <input type="text" placeholder="Type something..." value="Test">
+          <m-button-custom type="reset">Reset</m-button-custom>
+          <div class="output" id="out-custom-reset"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-shadow-reset">
+          <input type="text" placeholder="Type something..." value="Test">
+          <m-button-shadow type="reset">Reset</m-button-shadow>
+          <div class="output" id="out-shadow-reset"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-slot-reset">
+          <input type="text" placeholder="Type something..." value="Test">
+          <m-button-slot><button type="reset">Reset</button></m-button-slot>
+          <div class="output" id="out-slot-reset"></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">Button Type (no submit)</div>
+      <div>
+        <form id="form-custom-button" onsubmit="alert('Should NOT submit!'); return false;">
+          <m-button-custom type="button" onclick="document.getElementById('out-custom-button').textContent = 'Button clicked (no submit)'">Click</m-button-custom>
+          <div class="output" id="out-custom-button"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-shadow-button" onsubmit="alert('Should NOT submit!'); return false;">
+          <m-button-shadow type="button" onclick="document.getElementById('out-shadow-button').textContent = 'Button clicked (no submit)'">Click</m-button-shadow>
+          <div class="output" id="out-shadow-button"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-slot-button" onsubmit="alert('Should NOT submit!'); return false;">
+          <m-button-slot><button type="button" onclick="document.getElementById('out-slot-button').textContent = 'Button clicked (no submit)'">Click</button></m-button-slot>
+          <div class="output" id="out-slot-button"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 4: Form Validation -->
+  <!-- ============================================ -->
+  <h2>4. Form Validation</h2>
+  <div class="test-group">
+    <p><strong>Test:</strong> Try submitting with empty required field. Should trigger validation.</p>
+    
+    <div class="test-row">
+      <div class="test-label">Required Field</div>
+      <div>
+        <form id="form-custom-validation" onsubmit="logFormEvent(event, 'Custom Validation'); return false;">
+          <input type="email" required placeholder="email@example.com">
+          <m-button-custom type="submit">Submit</m-button-custom>
+          <div class="output" id="out-custom-validation"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-shadow-validation" onsubmit="logFormEvent(event, 'Shadow Validation'); return false;">
+          <input type="email" required placeholder="email@example.com">
+          <m-button-shadow type="submit">Submit</m-button-shadow>
+          <div class="output" id="out-shadow-validation"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-slot-validation" onsubmit="logFormEvent(event, 'Slot Validation'); return false;">
+          <input type="email" required placeholder="email@example.com">
+          <m-button-slot><button type="submit">Submit</button></m-button-slot>
+          <div class="output" id="out-slot-validation"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 5: Multiple Buttons in Form -->
+  <!-- ============================================ -->
+  <h2>5. Multiple Buttons in One Form</h2>
+  <div class="test-group">
+    <div class="test-row">
+      <div class="test-label">Mixed Types</div>
+      <div>
+        <form id="form-custom-multi" onsubmit="logFormEvent(event, 'Custom Multi'); return false;">
+          <input type="text" placeholder="Data..." value="test">
+          <div class="button-group">
+            <m-button-custom type="submit">Save</m-button-custom>
+            <m-button-custom type="reset">Reset</m-button-custom>
+            <m-button-custom type="button" onclick="document.getElementById('out-custom-multi').textContent = 'Cancel clicked'">Cancel</m-button-custom>
+          </div>
+          <div class="output" id="out-custom-multi"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-shadow-multi" onsubmit="logFormEvent(event, 'Shadow Multi'); return false;">
+          <input type="text" placeholder="Data..." value="test">
+          <div class="button-group">
+            <m-button-shadow type="submit">Save</m-button-shadow>
+            <m-button-shadow type="reset">Reset</m-button-shadow>
+            <m-button-shadow type="button" onclick="document.getElementById('out-shadow-multi').textContent = 'Cancel clicked'">Cancel</m-button-shadow>
+          </div>
+          <div class="output" id="out-shadow-multi"></div>
+        </form>
+      </div>
+      <div>
+        <form id="form-slot-multi" onsubmit="logFormEvent(event, 'Slot Multi'); return false;">
+          <input type="text" placeholder="Data..." value="test">
+          <div class="button-group">
+            <m-button-slot><button type="submit">Save</button></m-button-slot>
+            <m-button-slot><button type="reset">Reset</button></m-button-slot>
+            <m-button-slot><button type="button" onclick="document.getElementById('out-slot-multi').textContent = 'Cancel clicked'">Cancel</button></m-button-slot>
+          </div>
+          <div class="output" id="out-slot-multi"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 6: Design Token Override -->
+  <!-- ============================================ -->
+  <h2>6. Design Token Override</h2>
+  <div class="test-group">
+    <p><strong>Test:</strong> Buttons should use purple theme instead of blue.</p>
+    
+    <div class="test-row custom-theme">
+      <div class="test-label">Custom Theme</div>
+      <div><m-button-custom type="button">Purple Custom</m-button-custom></div>
+      <div><m-button-shadow type="button">Purple Shadow</m-button-shadow></div>
+      <div><m-button-slot><button type="button">Purple Slot</button></m-button-slot></div>
+    </div>
+
+    <div class="test-row">
+      <div class="test-label">Inline Style Override</div>
+      <div><m-button-custom type="button" style="--m-color-primary: #e91e63; --m-color-primary-hover: #c2185b;">Pink Custom</m-button-custom></div>
+      <div><m-button-shadow type="button" style="--m-color-primary: #e91e63; --m-color-primary-hover: #c2185b;">Pink Shadow</m-button-shadow></div>
+      <div><m-button-slot style="--m-color-primary: #e91e63; --m-color-primary-hover: #c2185b;"><button type="button">Pink Slot</button></m-button-slot></div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 7: Keyboard Navigation -->
+  <!-- ============================================ -->
+  <h2>7. Keyboard Navigation</h2>
+  <div class="test-group">
+    <p><strong>Test:</strong> Tab through these buttons. Space/Enter should activate. Disabled should be skipped.</p>
+    
+    <div class="test-row">
+      <div class="test-label">Focus Order</div>
+      <div class="button-group">
+        <m-button-custom type="button" onclick="alert('Custom 1')">1</m-button-custom>
+        <m-button-custom type="button" disabled>2 (skip)</m-button-custom>
+        <m-button-custom type="button" onclick="alert('Custom 3')">3</m-button-custom>
+      </div>
+      <div class="button-group">
+        <m-button-shadow type="button" onclick="alert('Shadow 1')">1</m-button-shadow>
+        <m-button-shadow type="button" disabled>2 (skip)</m-button-shadow>
+        <m-button-shadow type="button" onclick="alert('Shadow 3')">3</m-button-shadow>
+      </div>
+      <div class="button-group">
+        <m-button-slot><button type="button" onclick="alert('Slot 1')">1</button></m-button-slot>
+        <m-button-slot><button type="button" disabled>2 (skip)</button></m-button-slot>
+        <m-button-slot><button type="button" onclick="alert('Slot 3')">3</button></m-button-slot>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 8: Event Delegation -->
+  <!-- ============================================ -->
+  <h2>8. Event Delegation</h2>
+  <div class="test-group">
+    <p><strong>Test:</strong> Events should bubble correctly. Parent listener should catch button clicks.</p>
+    
+    <div class="test-row">
+      <div class="test-label">Click Bubbling</div>
+      <div id="bubble-custom" class="button-group">
+        <m-button-custom type="button">Click Me</m-button-custom>
+        <div class="output" id="out-bubble-custom"></div>
+      </div>
+      <div id="bubble-shadow" class="button-group">
+        <m-button-shadow type="button">Click Me</m-button-shadow>
+        <div class="output" id="out-bubble-shadow"></div>
+      </div>
+      <div id="bubble-slot" class="button-group">
+        <m-button-slot><button type="button">Click Me</button></m-button-slot>
+        <div class="output" id="out-bubble-slot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- EVENT LOG -->
+  <!-- ============================================ -->
+  <h2>Event Log</h2>
+  <div class="test-group">
+    <button onclick="document.getElementById('event-log').innerHTML = '';" style="padding: 0.5rem 1rem; margin-bottom: 1rem;">Clear Log</button>
+    <div id="event-log" class="event-log">
+      <div class="event-log-entry">Event log ready...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import all three button implementations
+    import { register as registerCustom } from './approach-1-custom/m-button-custom.js';
+    import { register as registerShadow } from './approach-2-shadow/m-button-shadow.js';
+    import { register as registerSlot } from './approach-3-slot/m-button-slot.js';
+
+    // Register all components
+    try {
+      registerCustom();
+      console.log('✅ Approach 1 (Custom) registered');
+    } catch (e) {
+      console.error('❌ Approach 1 failed to register:', e);
+    }
+
+    try {
+      registerShadow();
+      console.log('✅ Approach 2 (Shadow DOM) registered');
+    } catch (e) {
+      console.error('❌ Approach 2 failed to register:', e);
+    }
+
+    try {
+      registerSlot();
+      console.log('✅ Approach 3 (Slot-based) registered');
+    } catch (e) {
+      console.error('❌ Approach 3 failed to register:', e);
+    }
+  </script>
+
+  <script>
+    const eventLog = document.getElementById('event-log');
+    
+    function logEvent(type, message) {
+      const entry = document.createElement('div');
+      entry.className = `event-log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      eventLog.appendChild(entry);
+      eventLog.scrollTop = eventLog.scrollHeight;
+    }
+
+    function logFormEvent(event, formName) {
+      event.preventDefault();
+      const outputId = 'out-' + event.target.id.replace('form-', '');
+      const output = document.getElementById(outputId);
+      if (output) {
+        output.textContent = `✅ Form submitted: ${formName}`;
+        output.style.background = '#d4edda';
+        output.style.color = '#155724';
+      }
+      logEvent('form', `${formName} submitted`);
+    }
+
+    // Global click logging
+    document.addEventListener('click', (e) => {
+      const tagName = e.target.tagName.toLowerCase();
+      if (tagName.includes('button') || tagName === 'button') {
+        logEvent('click', `Click on ${e.target.textContent || e.target.tagName}`);
+      }
+    });
+
+    // Keyboard logging
+    document.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        const target = e.target;
+        const tagName = target.tagName.toLowerCase();
+        if (tagName.includes('button') || tagName === 'button') {
+          logEvent('keyboard', `${e.key} on ${target.textContent || target.tagName}`);
+        }
+      }
+    });
+
+    // Focus logging
+    document.addEventListener('focusin', (e) => {
+      const target = e.target;
+      const tagName = target.tagName.toLowerCase();
+      if (tagName.includes('button') || tagName === 'button') {
+        logEvent('focus', `Focus on ${target.textContent || target.tagName}`);
+      }
+    });
+
+    // Form reset handlers
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('reset', (e) => {
+        const formId = e.target.id;
+        const outputId = 'out-' + formId.replace('form-', '');
+        const output = document.getElementById(outputId);
+        setTimeout(() => {
+          if (output) {
+            output.textContent = `🔄 Form reset`;
+            output.style.background = '#fff3cd';
+            output.style.color = '#856404';
+          }
+          logEvent('form', `${formId} reset`);
+        }, 10);
+      });
+    });
+
+    // Event delegation test
+    document.getElementById('bubble-custom')?.addEventListener('click', (e) => {
+      if (e.target.tagName.toLowerCase().includes('button')) {
+        document.getElementById('out-bubble-custom').textContent = '✅ Event bubbled to parent';
+      }
+    });
+
+    document.getElementById('bubble-shadow')?.addEventListener('click', (e) => {
+      if (e.target.tagName.toLowerCase().includes('button')) {
+        document.getElementById('out-bubble-shadow').textContent = '✅ Event bubbled to parent';
+      }
+    });
+
+    document.getElementById('bubble-slot')?.addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        document.getElementById('out-bubble-slot').textContent = '✅ Event bubbled to parent';
+      }
+    });
+  </script>
+</body>
+</html>

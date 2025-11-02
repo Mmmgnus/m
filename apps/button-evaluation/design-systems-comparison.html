@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Systems Button Comparison</title>
+  <style>
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+
+    h1 { 
+      color: #333;
+      border-bottom: 3px solid #0066cc;
+      padding-bottom: 0.5rem;
+    }
+
+    h2 { 
+      margin-top: 3rem;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 0.5rem;
+    }
+    
+    .intro {
+      background: white;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      border-left: 4px solid #0066cc;
+    }
+
+    .comparison-table {
+      background: white;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #f5f5f5;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    .test-cell {
+      min-width: 150px;
+    }
+
+    .result {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0.25rem 0;
+    }
+
+    .result.pass { background: #d4edda; color: #155724; }
+    .result.fail { background: #f8d7da; color: #721c24; }
+    .result.partial { background: #fff3cd; color: #856404; }
+    .result.unknown { background: #e2e3e5; color: #383d41; }
+
+    form {
+      border: 2px dashed #ccc;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 4px;
+    }
+
+    .output {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      min-height: 2rem;
+    }
+
+    .note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    /* ARIA test helpers */
+    .sr-only {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    code {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    /* Design tokens for our buttons */
+    :root {
+      --m-color-primary: #0066cc;
+      --m-color-primary-hover: #0052a3;
+      --m-color-text: white;
+      --m-font-family: system-ui, sans-serif;
+      --m-font-size-base: 1rem;
+      --m-spacing-sm: 0.5rem;
+      --m-spacing-md: 1rem;
+      --m-border-radius: 0.25rem;
+      --m-transition-duration: 0.2s;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔬 Design Systems Button Comparison</h1>
+
+  <div class="intro">
+    <h3>Research Goal</h3>
+    <p>Evaluate how Material Design (Google) and Adobe Spectrum implement buttons with web components, and compare their accessibility approaches to our implementations.</p>
+    
+    <h4>Design Systems Tested:</h4>
+    <ul>
+      <li><strong>Material Web</strong> - Google's Material 3 web components (@material/web)</li>
+      <li><strong>Adobe Spectrum</strong> - Adobe's design system web components (@spectrum-web-components)</li>
+      <li><strong>Native Button</strong> - Standard HTML <code>&lt;button&gt;</code> as baseline</li>
+      <li><strong>Our Implementations</strong> - All three approaches we built</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 1: Basic Functionality -->
+  <!-- ============================================ -->
+  <h2>1. Basic Button Rendering</h2>
+  <div class="comparison-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Design System</th>
+          <th>Element</th>
+          <th>Example</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Native HTML</strong></td>
+          <td><code>&lt;button&gt;</code></td>
+          <td><button>Native Button</button></td>
+          <td>Baseline for comparison</td>
+        </tr>
+        <tr>
+          <td><strong>Material Web</strong></td>
+          <td><code>&lt;md-filled-button&gt;</code></td>
+          <td><md-filled-button>Material Button</md-filled-button></td>
+          <td>Material 3 design</td>
+        </tr>
+        <tr>
+          <td><strong>Adobe Spectrum</strong></td>
+          <td><code>&lt;sp-button&gt;</code></td>
+          <td><sp-button>Spectrum Button</sp-button></td>
+          <td>Spectrum design</td>
+        </tr>
+        <tr>
+          <td><strong>Ours - Slot</strong></td>
+          <td><code>&lt;m-button-slot&gt;</code></td>
+          <td><m-button-slot><button>Our Slot Button</button></m-button-slot></td>
+          <td>Recommended approach</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 2: Screen Reader Announcement -->
+  <!-- ============================================ -->
+  <h2>2. Screen Reader Test (VoiceOver)</h2>
+  <div class="comparison-table">
+    <div class="note">
+      <strong>Test Instructions:</strong> Enable VoiceOver (⌘+F5), navigate with Control+Option+→, and note what's announced.
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Button Type</th>
+          <th>Element</th>
+          <th>What's Announced</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Native</strong></td>
+          <td><button>Test Native</button></td>
+          <td><span id="native-sr-result" class="result unknown">Test with VoiceOver</span></td>
+          <td>Expected: "Test Native, button"</td>
+        </tr>
+        <tr>
+          <td><strong>Material Web</strong></td>
+          <td><md-filled-button>Test Material</md-filled-button></td>
+          <td><span id="material-sr-result" class="result unknown">Test with VoiceOver</span></td>
+          <td>Check for "Group" announcement</td>
+        </tr>
+        <tr>
+          <td><strong>Spectrum</strong></td>
+          <td><sp-button>Test Spectrum</sp-button></td>
+          <td><span id="spectrum-sr-result" class="result unknown">Test with VoiceOver</span></td>
+          <td>Check for "Group" announcement</td>
+        </tr>
+        <tr>
+          <td><strong>Our Slot</strong></td>
+          <td><m-button-slot><button>Test Slot</button></m-button-slot></td>
+          <td><span id="slot-sr-result" class="result unknown">Test with VoiceOver</span></td>
+          <td>Should be like native</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 3: ARIA Attributes -->
+  <!-- ============================================ -->
+  <h2>3. ARIA Attributes Test</h2>
+  <div class="comparison-table">
+    <div class="note">
+      <strong>Test:</strong> Open DevTools → Accessibility panel to inspect ARIA relationships
+    </div>
+
+    <!-- Hidden labels for ARIA testing -->
+    <span id="aria-label-test" class="sr-only">This is a test description</span>
+    
+    <h3>aria-describedby Test</h3>
+    <div class="button-container">
+      <div>
+        <label>Native:</label>
+        <button aria-describedby="aria-label-test">?</button>
+      </div>
+      <div>
+        <label>Material:</label>
+        <md-filled-button aria-describedby="aria-label-test">?</md-filled-button>
+      </div>
+      <div>
+        <label>Spectrum:</label>
+        <sp-button aria-describedby="aria-label-test">?</sp-button>
+      </div>
+      <div>
+        <label>Ours (Slot):</label>
+        <m-button-slot><button aria-describedby="aria-label-test">?</button></m-button-slot>
+      </div>
+    </div>
+
+    <h3>aria-label Test</h3>
+    <div class="button-container">
+      <div>
+        <label>Native:</label>
+        <button aria-label="Close dialog">×</button>
+      </div>
+      <div>
+        <label>Material:</label>
+        <md-filled-button aria-label="Close dialog">×</md-filled-button>
+      </div>
+      <div>
+        <label>Spectrum:</label>
+        <sp-button aria-label="Close dialog">×</sp-button>
+      </div>
+      <div>
+        <label>Ours (Slot):</label>
+        <m-button-slot><button aria-label="Close dialog">×</button></m-button-slot>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 4: Form Integration -->
+  <!-- ============================================ -->
+  <h2>4. Form Integration Test</h2>
+  <div class="comparison-table">
+    <h3>Submit Type</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Button Type</th>
+          <th>Test Form</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Native</strong></td>
+          <td>
+            <form id="form-native" onsubmit="handleSubmit(event, 'Native'); return false;">
+              <button type="submit">Submit</button>
+              <div class="output" id="out-native"></div>
+            </form>
+          </td>
+          <td><span class="result unknown">Click to test</span></td>
+        </tr>
+        <tr>
+          <td><strong>Material</strong></td>
+          <td>
+            <form id="form-material" onsubmit="handleSubmit(event, 'Material'); return false;">
+              <md-filled-button type="submit">Submit</md-filled-button>
+              <div class="output" id="out-material"></div>
+            </form>
+          </td>
+          <td><span class="result unknown">Click to test</span></td>
+        </tr>
+        <tr>
+          <td><strong>Spectrum</strong></td>
+          <td>
+            <form id="form-spectrum" onsubmit="handleSubmit(event, 'Spectrum'); return false;">
+              <sp-button type="submit">Submit</sp-button>
+              <div class="output" id="out-spectrum"></div>
+            </form>
+          </td>
+          <td><span class="result unknown">Click to test</span></td>
+        </tr>
+        <tr>
+          <td><strong>Ours (Slot)</strong></td>
+          <td>
+            <form id="form-slot" onsubmit="handleSubmit(event, 'Slot'); return false;">
+              <m-button-slot><button type="submit">Submit</button></m-button-slot>
+              <div class="output" id="out-slot"></div>
+            </form>
+          </td>
+          <td><span class="result unknown">Click to test</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 5: Focus Indicators -->
+  <!-- ============================================ -->
+  <h2>5. Focus Indicator Test</h2>
+  <div class="comparison-table">
+    <div class="note">
+      <strong>Test:</strong> Tab through these buttons and verify visible focus indicators
+    </div>
+    
+    <div class="button-container">
+      <button>Native 1</button>
+      <md-filled-button>Material 2</md-filled-button>
+      <sp-button>Spectrum 3</sp-button>
+      <m-button-slot><button>Slot 4</button></m-button-slot>
+      <button>Native 5</button>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- TEST 6: Disabled State -->
+  <!-- ============================================ -->
+  <h2>6. Disabled State Test</h2>
+  <div class="comparison-table">
+    <div class="button-container">
+      <button disabled>Native Disabled</button>
+      <md-filled-button disabled>Material Disabled</md-filled-button>
+      <sp-button disabled>Spectrum Disabled</sp-button>
+      <m-button-slot><button disabled>Slot Disabled</button></m-button-slot>
+    </div>
+    
+    <div class="note">
+      <strong>Expected:</strong> Buttons should be visually disabled, not focusable with Tab, and not clickable.
+    </div>
+  </div>
+
+  <!-- Import web components -->
+  <script type="module">
+    // Import Material Web
+    import '@material/web/button/filled-button.js';
+    
+    // Import Adobe Spectrum (needs theme)
+    import '@spectrum-web-components/button/sp-button.js';
+    import '@spectrum-web-components/theme/sp-theme.js';
+    import '@spectrum-web-components/theme/src/themes.js';
+    
+    // Import our slot implementation
+    import { register as registerSlot } from './approach-3-slot/m-button-slot.js';
+    
+    registerSlot();
+    
+    console.log('✅ All components loaded');
+  </script>
+
+  <script>
+    function handleSubmit(event, name) {
+      event.preventDefault();
+      const outputId = 'out-' + event.target.id.replace('form-', '');
+      const output = document.getElementById(outputId);
+      if (output) {
+        output.textContent = `✅ ${name} form submitted at ${new Date().toLocaleTimeString()}`;
+        output.style.background = '#d4edda';
+        output.style.color = '#155724';
+      }
+    }
+
+    // Log all button interactions
+    document.addEventListener('click', (e) => {
+      const tag = e.target.tagName.toLowerCase();
+      if (tag === 'button' || tag.includes('button')) {
+        console.log('Click:', tag, e.target.textContent?.trim());
+      }
+    });
+  </script>
+</body>
+</html>

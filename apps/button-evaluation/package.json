@@ -1,0 +1,28 @@
+{
+  "name": "@frdh/button-evaluation",
+  "version": "0.0.1",
+  "description": "Button Web Component Evaluation - Compare three implementation approaches",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@material/web": "^2.4.1",
+    "@spectrum-web-components/button": "^1.9.0",
+    "@spectrum-web-components/theme": "^1.9.0",
+    "lit": "^3.0.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.12"
+  },
+  "keywords": [
+    "web-components",
+    "evaluation",
+    "accessibility"
+  ],
+  "author": "Magnus Fredlundh (magnus.dev)",
+  "license": "ISC"
+}

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Evaluation - Index</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: white;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      opacity: 0.9;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #667eea;
+    }
+
+    .card-description {
+      color: #666;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.primary {
+      background: #e7f3ff;
+      color: #0066cc;
+    }
+
+    .badge.success {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .badge.warning {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .badge.info {
+      background: #e2e3e5;
+      color: #383d41;
+    }
+
+    .docs-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .docs-section h2 {
+      color: #667eea;
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+    }
+
+    .docs-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .docs-list li {
+      padding: 0.75rem 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
+    }
+
+    .docs-list a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .docs-list a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: white;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+
+    .status-indicator.green {
+      background: #28a745;
+    }
+
+    .status-indicator.yellow {
+      background: #ffc107;
+    }
+
+    .status-indicator.red {
+      background: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔬 Button Evaluation</h1>
+      <p class="subtitle">Compare button web component implementations and accessibility approaches</p>
+    </header>
+
+    <section>
+      <h2 style="color: white; margin-bottom: 1.5rem; font-size: 1.5rem;">Test Harnesses</h2>
+      <div class="cards">
+        
+        <!-- Test Harness Extended -->
+        <a href="test-harness-extended.html" class="card">
+          <div class="card-icon">🧪</div>
+          <h3 class="card-title">Extended Test Suite</h3>
+          <p class="card-description">
+            Comprehensive testing of all three button approaches with 8 test categories including ARIA, forms, keyboard, and design tokens.
+          </p>
+          <div class="card-meta">
+            <span class="badge primary">Comprehensive</span>
+            <span class="badge success">Recommended</span>
+          </div>
+        </a>
+
+        <!-- Test Harness Simple -->
+        <a href="test-harness.html" class="card">
+          <div class="card-icon">📋</div>
+          <h3 class="card-title">Simple Test Harness</h3>
+          <p class="card-description">
+            Basic side-by-side comparison of the three button implementations. Quick overview and basic functionality testing.
+          </p>
+          <div class="card-meta">
+            <span class="badge info">Basic</span>
+            <span class="badge primary">Quick Start</span>
+          </div>
+        </a>
+
+        <!-- Design Systems Comparison -->
+        <a href="design-systems-comparison.html" class="card">
+          <div class="card-icon">🏢</div>
+          <h3 class="card-title">Design Systems Comparison</h3>
+          <p class="card-description">
+            Compare our implementations with Material Design and Adobe Spectrum. Learn from industry-leading design systems.
+          </p>
+          <div class="card-meta">
+            <span class="badge warning">Research</span>
+            <span class="badge info">Material & Spectrum</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="docs-section">
+      <h2>📚 Documentation</h2>
+      <ul class="docs-list">
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="README.md" target="_blank">Project Overview</a>
+        </li>
+        <li>
+          <span class="status-indicator yellow"></span>
+          <a href="ISSUES_FOUND.md" target="_blank">Critical Issues Found</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="FIXES_APPLIED.md" target="_blank">Fixes Applied</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="EVALUATION_CRITERIA.md" target="_blank">Evaluation Criteria</a>
+        </li>
+        <li>
+          <span class="status-indicator yellow"></span>
+          <a href="EVALUATION_RESULTS.md" target="_blank">Evaluation Results</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="SPECTRUM_ANALYSIS.md" target="_blank">Spectrum Analysis</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="APPROACH_1_IMPROVEMENTS.md" target="_blank">Approach 1 Improvements</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="DESIGN_SYSTEM_RESEARCH.md" target="_blank">Design System Research</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="AI_IMPLEMENTER_GUIDE.md" target="_blank">AI Implementer Guide</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="AI_PROMPTS.md" target="_blank">AI Prompts</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="PROJECT_SUMMARY.md" target="_blank">Project Summary</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="docs-section">
+      <h2>🎯 Approach Specifications</h2>
+      <ul class="docs-list">
+        <li>
+          <span class="status-indicator yellow"></span>
+          <a href="approach-1-custom/SPEC.md" target="_blank">Approach 1: Custom (Improved)</a>
+        </li>
+        <li>
+          <span class="status-indicator red"></span>
+          <a href="approach-2-shadow/SPEC.md" target="_blank">Approach 2: Shadow DOM</a>
+        </li>
+        <li>
+          <span class="status-indicator green"></span>
+          <a href="approach-3-slot/SPEC.md" target="_blank">Approach 3: Slot-Based ⭐</a>
+        </li>
+      </ul>
+    </section>
+
+    <section class="docs-section">
+      <h2>🚀 Quick Start</h2>
+      <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #667eea;">
+        <h3 style="margin-top: 0; color: #667eea;">Running the Evaluation</h3>
+        <pre style="background: #2d3748; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto;"><code>npm run dev</code></pre>
+        <p style="margin-top: 1rem; color: #666;">
+          Starts Vite dev server on <strong>http://localhost:3000</strong>
+        </p>
+      </div>
+    </section>
+
+    <section class="docs-section" style="border-left: 4px solid #28a745;">
+      <h2>✅ Final Recommendation</h2>
+      <div style="padding: 1rem; background: #d4edda; border-radius: 8px; color: #155724;">
+        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">
+          Use Approach 3 (Slot-Based) for the M Design System
+        </p>
+        <p style="margin-bottom: 0;">
+          Only slot-based approach provides full accessibility compliance. Shadow DOM creates fundamental barriers for form components that even major design systems (Google, Adobe) cannot overcome.
+        </p>
+      </div>
+    </section>
+
+    <section class="docs-section">
+      <h2>📊 Key Findings</h2>
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: #f8f9fa;">
+            <th style="padding: 1rem; text-align: left; border-bottom: 2px solid #dee2e6;">Approach</th>
+            <th style="padding: 1rem; text-align: center; border-bottom: 2px solid #dee2e6;">Screen Reader</th>
+            <th style="padding: 1rem; text-align: center; border-bottom: 2px solid #dee2e6;">ARIA</th>
+            <th style="padding: 1rem; text-align: center; border-bottom: 2px solid #dee2e6;">Forms</th>
+            <th style="padding: 1rem; text-align: center; border-bottom: 2px solid #dee2e6;">Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;">Approach 1 (Improved)</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">🟡</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">❌</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">✅</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">Good Enough</td>
+          </tr>
+          <tr>
+            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;">Approach 2 (Shadow DOM)</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">❌</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">❌</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">✅</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">Not Recommended</td>
+          </tr>
+          <tr style="background: #d4edda;">
+            <td style="padding: 1rem; border-bottom: 1px solid #dee2e6;"><strong>Approach 3 (Slot-Based) ⭐</strong></td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">✅</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">✅</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;">✅</td>
+            <td style="padding: 1rem; text-align: center; border-bottom: 1px solid #dee2e6;"><strong>Recommended</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      <p>M Design System • Button Evaluation Project • 2025</p>
+    </footer>
+  </div>
+</body>
+</html>

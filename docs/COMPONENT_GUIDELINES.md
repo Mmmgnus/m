@@ -316,4 +316,344 @@ render() {
 }
 ```
 
+## Form Components: Light DOM Pattern
+
+### Why Light DOM for Form Components?
+
+Form components (buttons, inputs, checkboxes, etc.) use a **light DOM pattern** instead of shadow DOM to ensure:
+1. ✅ Perfect label/input connections via `for` attribute
+2. ✅ All ARIA attributes work without limitations
+3. ✅ No cross-boundary ID reference issues
+4. ✅ Native form behavior without compromises
+
+### Form Component Template
+
+```javascript
+import { LitElement, html } from 'lit';
+
+/**
+ * A form input component that wraps a native input element.
+ * Uses light DOM for perfect accessibility and label connections.
+ *
+ * @element m-input
+ * @slot - Native <input> element
+ *
+ * @example
+ * <m-input label="Email">
+ *   <input type="email" name="email" required>
+ * </m-input>
+ */
+export class MInput extends LitElement {
+  static defaultTagName = 'm-input';
+
+  static properties = {
+    /**
+     * Label text for the input
+     * @type {string}
+     */
+    label: { type: String },
+    
+    /**
+     * Error message to display
+     * @type {string}
+     */
+    error: { type: String },
+    
+    /**
+     * Help text for the input
+     * @type {string}
+     */
+    help: { type: String },
+  };
+
+  constructor() {
+    super();
+    this.label = '';
+    this.error = '';
+    this.help = '';
+  }
+
+  /**
+   * Render in light DOM (no shadow DOM).
+   * This ensures labels can reference inputs via 'for' attribute.
+   * @returns {this}
+   */
+  createRenderRoot() {
+    return this;
+  }
+
+  /**
+   * After first render, ensure input has ID and connect ARIA attributes
+   */
+  firstUpdated() {
+    this._ensureInputId();
+    this._connectAria();
+  }
+
+  /**
+   * When properties update, reconnect ARIA attributes
+   */
+  updated(changedProperties) {
+    super.updated(changedProperties);
+    if (changedProperties.has('error') || changedProperties.has('help')) {
+      this._connectAria();
+    }
+    if (changedProperties.has('label')) {
+      this._connectLabel();
+    }
+  }
+
+  /**
+   * Ensures the slotted input has a unique ID
+   * @private
+   */
+  _ensureInputId() {
+    const input = this.querySelector('input');
+    if (!input) {
+      console.warn('m-input: No <input> element found.');
+      return;
+    }
+    
+    if (!input.id) {
+      input.id = `input-${Math.random().toString(36).substr(2, 9)}`;
+    }
+  }
+
+  /**
+   * Connects label to input via 'for' attribute
+   * @private
+   */
+  _connectLabel() {
+    const input = this.querySelector('input');
+    const label = this.querySelector('.m-input__label');
+    
+    if (label && input) {
+      label.setAttribute('for', input.id);
+    }
+  }
+
+  /**
+   * Connects ARIA attributes to input
+   * @private
+   */
+  _connectAria() {
+    const input = this.querySelector('input');
+    if (!input) return;
+    
+    const describedBy = [];
+    
+    if (this.error) {
+      describedBy.push(`${input.id}-error`);
+    }
+    if (this.help) {
+      describedBy.push(`${input.id}-help`);
+    }
+    
+    if (describedBy.length) {
+      input.setAttribute('aria-describedby', describedBy.join(' '));
+    } else {
+      input.removeAttribute('aria-describedby');
+    }
+  }
+
+  render() {
+    const inputId = this._getInputId();
+    
+    return html`
+      <style>
+        /* Component-scoped styles */
+        .m-input {
+          display: block;
+        }
+        
+        .m-input__label {
+          display: block;
+          margin-bottom: 0.5rem;
+          font-family: var(--m-font-family, system-ui, sans-serif);
+          font-size: var(--m-font-size-base, 1rem);
+          font-weight: 500;
+          color: var(--m-color-text, #333);
+        }
+        
+        .m-input__wrapper {
+          position: relative;
+        }
+        
+        .m-input input {
+          width: 100%;
+          padding: var(--m-spacing-sm, 0.5rem);
+          border: 1px solid var(--m-color-border, #ccc);
+          border-radius: var(--m-border-radius, 0.25rem);
+          font-family: var(--m-font-family, system-ui, sans-serif);
+          font-size: var(--m-font-size-base, 1rem);
+        }
+        
+        .m-input input:focus {
+          outline: 2px solid var(--m-color-primary, #0066cc);
+          outline-offset: 2px;
+        }
+        
+        .m-input--error input {
+          border-color: var(--m-color-error, #dc3545);
+        }
+        
+        .m-input__error {
+          margin-top: 0.25rem;
+          font-size: 0.875rem;
+          color: var(--m-color-error, #dc3545);
+        }
+        
+        .m-input__help {
+          margin-top: 0.25rem;
+          font-size: 0.875rem;
+          color: var(--m-color-text-secondary, #666);
+        }
+      </style>
+      
+      <div class="m-input ${this.error ? 'm-input--error' : ''}">
+        ${this.label ? html`
+          <label class="m-input__label">${this.label}</label>
+        ` : ''}
+        <div class="m-input__wrapper">
+          <slot></slot>
+        </div>
+        ${this.error ? html`
+          <div class="m-input__error" id="${inputId}-error">${this.error}</div>
+        ` : ''}
+        ${this.help ? html`
+          <div class="m-input__help" id="${inputId}-help">${this.help}</div>
+        ` : ''}
+      </div>
+    `;
+  }
+  
+  /**
+   * Gets the input ID (used during render)
+   * @private
+   */
+  _getInputId() {
+    const input = this.querySelector('input');
+    return input?.id || '';
+  }
+}
+
+export function register(tagName = MInput.defaultTagName) {
+  if (!customElements.get(tagName)) {
+    customElements.define(tagName, MInput);
+  }
+  return tagName;
+}
+```
+
+### Key Differences for Form Components
+
+1. **No Shadow DOM**:
+   ```javascript
+   createRenderRoot() {
+     return this; // Render in light DOM
+   }
+   ```
+
+2. **Inline Styles**:
+   ```javascript
+   render() {
+     return html`
+       <style>
+         /* Scoped CSS using BEM naming */
+         .m-component { /* styles */ }
+       </style>
+       <!-- content -->
+     `;
+   }
+   ```
+
+3. **Label Connection**:
+   ```javascript
+   _connectLabel() {
+     const input = this.querySelector('input');
+     const label = this.querySelector('.m-input__label');
+     
+     if (label && input) {
+       label.setAttribute('for', input.id);
+     }
+   }
+   ```
+
+4. **ARIA Connection**:
+   ```javascript
+   _connectAria() {
+     const input = this.querySelector('input');
+     if (this.error) {
+       input.setAttribute('aria-describedby', `${input.id}-error`);
+     }
+   }
+   ```
+
+### Form Component Usage
+
+```html
+<!-- Basic usage -->
+<m-input label="Email">
+  <input type="email" name="email" required>
+</m-input>
+
+<!-- With error message -->
+<m-input label="Email" error="Please enter a valid email">
+  <input type="email" name="email" required aria-invalid="true">
+</m-input>
+
+<!-- With help text -->
+<m-input label="Password" help="Must be at least 8 characters">
+  <input type="password" name="password" required>
+</m-input>
+
+<!-- External label (still works!) -->
+<label for="custom-id">Custom Label</label>
+<m-input>
+  <input id="custom-id" type="text" name="field">
+</m-input>
+```
+
+### When to Use Light DOM vs Shadow DOM
+
+**Use Light DOM (no `createRenderRoot()` override) for:**
+- ✅ Form components (button, input, checkbox, radio, select, textarea)
+- ✅ Components that need label connections
+- ✅ Components requiring external ARIA references
+- ✅ Components where accessibility is critical
+
+**Use Shadow DOM (default Lit behavior) for:**
+- ✅ Purely presentational components (card, badge, avatar)
+- ✅ Components with complex internal structure
+- ✅ Components where style encapsulation is essential
+- ✅ Non-interactive UI elements
+
+### BEM Naming Convention for Light DOM
+
+When using light DOM, use BEM to scope your styles:
+
+```css
+/* Block */
+.m-component { }
+
+/* Element */
+.m-component__element { }
+
+/* Modifier */
+.m-component--modifier { }
+.m-component__element--modifier { }
+```
+
+Example:
+```css
+.m-input { }                    /* Block */
+.m-input__label { }             /* Element */
+.m-input__wrapper { }           /* Element */
+.m-input__error { }             /* Element */
+.m-input--error { }             /* Modifier */
+.m-input--error input { }       /* Modifier affecting child */
+```
+
+---
+
 Following these guidelines ensures consistency across all M Design System components and makes them easy to understand, use, and maintain.

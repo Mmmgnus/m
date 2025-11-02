@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Evaluation Test Harness</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #0066cc;
+      padding-bottom: 0.5rem;
+    }
+
+    h2 {
+      color: #555;
+      margin-top: 2rem;
+    }
+
+    .intro {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      border-left: 4px solid #0066cc;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .approach-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .approach-card h3 {
+      margin-top: 0;
+      color: #0066cc;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 0.5rem;
+    }
+
+    .test-section {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .test-section h4 {
+      margin-top: 0;
+      color: #666;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    form {
+      border: 2px dashed #ccc;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+
+    .form-output {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      min-height: 2rem;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .status.pass {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status.pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .instructions {
+      background: #e7f3ff;
+      border-left: 4px solid #0066cc;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+
+    .instructions h4 {
+      margin-top: 0;
+      color: #0066cc;
+    }
+
+    .instructions ul {
+      margin-bottom: 0;
+    }
+
+    /* Design tokens for all buttons */
+    :root {
+      --m-color-primary: #0066cc;
+      --m-color-primary-hover: #0052a3;
+      --m-color-secondary: #6c757d;
+      --m-color-text: white;
+      --m-font-family: system-ui, -apple-system, sans-serif;
+      --m-font-size-base: 1rem;
+      --m-spacing-sm: 0.5rem;
+      --m-spacing-md: 1rem;
+      --m-border-radius: 0.25rem;
+      --m-transition-duration: 0.2s;
+    }
+
+    .native-button-comparison {
+      margin-top: 1rem;
+    }
+
+    .native-button-comparison button {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .native-button-comparison button:hover:not(:disabled) {
+      background: #0052a3;
+    }
+
+    .native-button-comparison button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    code {
+      background: #f4f4f4;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      padding: 0.25rem 0;
+    }
+
+    .checklist li:before {
+      content: "☐ ";
+      margin-right: 0.5rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔬 Button Web Component Evaluation</h1>
+
+  <div class="intro">
+    <p><strong>Purpose:</strong> Compare three different approaches to building an accessible, design-token-based button web component using Lit.</p>
+    <p><strong>Goal:</strong> Determine which approach best balances accessibility, developer experience, standards alignment, and maintainability.</p>
+  </div>
+
+  <div class="instructions">
+    <h4>Testing Instructions</h4>
+    <ul>
+      <li><strong>Visual Testing:</strong> Click buttons, check hover states, test disabled state</li>
+      <li><strong>Keyboard Testing:</strong> Use Tab to navigate, Space/Enter to activate</li>
+      <li><strong>Form Testing:</strong> Test submit, reset, and button type behaviors</li>
+      <li><strong>Screen Reader:</strong> Enable VoiceOver (⌘+F5 on macOS) and navigate through buttons</li>
+      <li><strong>DevTools:</strong> Inspect accessibility tree and ARIA attributes</li>
+    </ul>
+  </div>
+
+  <div class="comparison-grid">
+    <!-- Approach 1: Custom Implementation -->
+    <div class="approach-card">
+      <h3>Approach 1: Custom Implementation <span class="status pending">In Progress</span></h3>
+      <p>Button built entirely from scratch. All functionality manually implemented.</p>
+
+      <div class="test-section">
+        <h4>Basic Buttons</h4>
+        <div class="button-group">
+          <m-button-custom type="button">Click Me</m-button-custom>
+          <m-button-custom type="button" disabled>Disabled</m-button-custom>
+          <m-button-custom type="button" aria-label="Custom label">Icon ⭐</m-button-custom>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h4>Form Integration Test</h4>
+        <form id="form1-custom" onsubmit="handleSubmit(event, 'Approach 1')">
+          <div class="button-group">
+            <m-button-custom type="submit">Submit</m-button-custom>
+            <m-button-custom type="reset">Reset</m-button-custom>
+            <m-button-custom type="button" onclick="alert('Button type - no submit')">Button</m-button-custom>
+          </div>
+          <div class="form-output" id="output1-custom">Submit or reset the form to see result...</div>
+        </form>
+      </div>
+
+      <div class="test-section">
+        <h4>Quick Checklist</h4>
+        <ul class="checklist">
+          <li>Keyboard navigation works (Tab, Space, Enter)</li>
+          <li>Focus indicator visible</li>
+          <li>Disabled state prevents interaction</li>
+          <li>Submit button triggers form submission</li>
+          <li>Screen reader announces as button</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Approach 2: Native Button in Shadow DOM -->
+    <div class="approach-card">
+      <h3>Approach 2: Shadow DOM <span class="status pending">In Progress</span></h3>
+      <p>Wraps a native <code>&lt;button&gt;</code> element inside shadow DOM.</p>
+
+      <div class="test-section">
+        <h4>Basic Buttons</h4>
+        <div class="button-group">
+          <m-button-shadow type="button">Click Me</m-button-shadow>
+          <m-button-shadow type="button" disabled>Disabled</m-button-shadow>
+          <m-button-shadow type="button" aria-label="Custom label">Icon ⭐</m-button-shadow>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h4>Form Integration Test</h4>
+        <form id="form2-shadow" onsubmit="handleSubmit(event, 'Approach 2')">
+          <div class="button-group">
+            <m-button-shadow type="submit">Submit</m-button-shadow>
+            <m-button-shadow type="reset">Reset</m-button-shadow>
+            <m-button-shadow type="button" onclick="alert('Button type - no submit')">Button</m-button-shadow>
+          </div>
+          <div class="form-output" id="output2-shadow">Submit or reset the form to see result...</div>
+        </form>
+      </div>
+
+      <div class="test-section">
+        <h4>Quick Checklist</h4>
+        <ul class="checklist">
+          <li>Keyboard navigation works (automatic)</li>
+          <li>Focus delegation works correctly</li>
+          <li>Disabled state prevents interaction</li>
+          <li>Submit button triggers form submission</li>
+          <li>Screen reader announces as button</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Approach 3: Slot-Based Wrapper -->
+    <div class="approach-card">
+      <h3>Approach 3: Slot-Based <span class="status pending">In Progress</span></h3>
+      <p>Styled wrapper around developer-provided <code>&lt;button&gt;</code> via slot.</p>
+
+      <div class="test-section">
+        <h4>Basic Buttons</h4>
+        <div class="button-group">
+          <m-button-slot>
+            <button type="button">Click Me</button>
+          </m-button-slot>
+          <m-button-slot>
+            <button type="button" disabled>Disabled</button>
+          </m-button-slot>
+          <m-button-slot>
+            <button type="button" aria-label="Custom label">Icon ⭐</button>
+          </m-button-slot>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h4>Form Integration Test</h4>
+        <form id="form3-slot" onsubmit="handleSubmit(event, 'Approach 3')">
+          <div class="button-group">
+            <m-button-slot>
+              <button type="submit">Submit</button>
+            </m-button-slot>
+            <m-button-slot>
+              <button type="reset">Reset</button>
+            </m-button-slot>
+            <m-button-slot>
+              <button type="button" onclick="alert('Button type - no submit')">Button</button>
+            </m-button-slot>
+          </div>
+          <div class="form-output" id="output3-slot">Submit or reset the form to see result...</div>
+        </form>
+      </div>
+
+      <div class="test-section">
+        <h4>Quick Checklist</h4>
+        <ul class="checklist">
+          <li>Keyboard navigation works (native)</li>
+          <li>Focus indicator visible</li>
+          <li>Disabled state prevents interaction</li>
+          <li>Submit button triggers form submission</li>
+          <li>Screen reader announces as button</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Native Button Baseline -->
+  <div class="test-section">
+    <h2>Baseline: Native Button (for comparison)</h2>
+    <p>Compare the web components above to these native buttons to ensure behavior parity.</p>
+    <div class="native-button-comparison">
+      <form id="form-native" onsubmit="handleSubmit(event, 'Native')">
+        <div class="button-group">
+          <button type="button">Click Me</button>
+          <button type="button" disabled>Disabled</button>
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+          <button type="button" aria-label="Custom label">Icon ⭐</button>
+        </div>
+        <div class="form-output" id="output-native">Submit or reset the form to see result...</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Advanced Tests -->
+  <h2>Advanced Accessibility Tests</h2>
+  
+  <div class="comparison-grid">
+    <div class="test-section">
+      <h4>ARIA Attributes Test</h4>
+      <p>Test with screen reader and inspect accessibility tree:</p>
+      <div class="button-group">
+        <m-button-custom aria-label="Save document">💾</m-button-custom>
+        <m-button-shadow aria-label="Delete item">🗑️</m-button-shadow>
+        <m-button-slot>
+          <button aria-label="Close dialog">✖️</button>
+        </m-button-slot>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h4>Keyboard Focus Order Test</h4>
+      <p>Tab through these buttons to test focus order:</p>
+      <div class="button-group">
+        <m-button-custom type="button">1. Custom</m-button-custom>
+        <m-button-shadow type="button">2. Shadow</m-button-shadow>
+        <m-button-slot><button type="button">3. Slot</button></m-button-slot>
+        <m-button-custom type="button" disabled>4. Disabled (skip)</m-button-custom>
+        <m-button-shadow type="button">5. Shadow</m-button-shadow>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import all three button implementations
+    import { register as registerCustom } from './approach-1-custom/m-button-custom.js';
+    import { register as registerShadow } from './approach-2-shadow/m-button-shadow.js';
+    import { register as registerSlot } from './approach-3-slot/m-button-slot.js';
+
+    // Register all components
+    try {
+      registerCustom();
+      console.log('✅ Approach 1 (Custom) registered');
+    } catch (e) {
+      console.error('❌ Approach 1 failed to register:', e);
+    }
+
+    try {
+      registerShadow();
+      console.log('✅ Approach 2 (Shadow DOM) registered');
+    } catch (e) {
+      console.error('❌ Approach 2 failed to register:', e);
+    }
+
+    try {
+      registerSlot();
+      console.log('✅ Approach 3 (Slot-based) registered');
+    } catch (e) {
+      console.error('❌ Approach 3 failed to register:', e);
+    }
+  </script>
+
+  <script>
+    // Form submission handler
+    function handleSubmit(event, approach) {
+      event.preventDefault();
+      const formId = event.target.id;
+      const outputId = `output${formId.replace('form', '')}`;
+      const output = document.getElementById(outputId);
+      output.textContent = `✅ ${approach}: Form submitted successfully! (${new Date().toLocaleTimeString()})`;
+      output.style.color = '#155724';
+      output.style.background = '#d4edda';
+    }
+
+    // Form reset handler for all forms
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('reset', (event) => {
+        const formId = event.target.id;
+        const outputId = `output${formId.replace('form', '')}`;
+        const output = document.getElementById(outputId);
+        setTimeout(() => {
+          output.textContent = `🔄 Form reset! (${new Date().toLocaleTimeString()})`;
+          output.style.color = '#856404';
+          output.style.background = '#fff3cd';
+        }, 10);
+      });
+    });
+
+    // Log keyboard events for debugging
+    document.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        console.log(`Keyboard: ${e.key} pressed on`, e.target);
+      }
+    });
+  </script>
+</body>
+</html>
