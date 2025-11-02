@@ -24,7 +24,11 @@
     "@custom-elements-manifest/analyzer": "^0.9.0",
     "typescript": "^5.0.0"
   },
-  "keywords": ["web-components", "design-system"],
+  "keywords": [
+    "web-components",
+    "design-system"
+  ],
   "author": "Magnus Fredlundh (magnus.dev)",
-  "license": "ISC"
+  "license": "ISC",
+  "main": "index.js"
 }
