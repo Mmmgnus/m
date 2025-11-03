@@ -105,20 +105,7 @@
     </div>
     
     <div class="test-group">
-      <h3>Slotted Label (Custom HTML)</h3>
-      <m-radio>
-        <input type="radio" name="slotted" value="a">
-        <span slot="label">Label with <strong>bold</strong> text</span>
-      </m-radio>
-      <br><br>
-      <m-radio>
-        <input type="radio" name="slotted" value="b" checked>
-        <span slot="label">Label with <em>italic</em> text</span>
-      </m-radio>
-    </div>
-    
-    <div class="test-group">
-      <h3>Without Labels (External Label)</h3>
+      <h3>External Labels</h3>
       <m-radio>
         <input type="radio" id="ext1" name="external" value="a">
       </m-radio>
@@ -128,6 +115,11 @@
         <input type="radio" id="ext2" name="external" value="b">
       </m-radio>
       <label for="ext2">External Label B</label>
+      <br><br>
+      <label for="ext3">Custom <strong>HTML</strong> in external label</label>
+      <m-radio>
+        <input type="radio" id="ext3" name="external" value="c">
+      </m-radio>
     </div>
     
     <div class="test-group">

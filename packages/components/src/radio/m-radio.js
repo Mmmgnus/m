@@ -7,7 +7,6 @@ import { LitElement, html, css } from 'lit';
  *
  * @element m-radio
  * @slot - Native <input type="radio"> element
- * @slot label - Custom label content (alternative to label prop)
  *
  * @example
  * # Basic usage with label prop
@@ -18,12 +17,12 @@ import { LitElement, html, css } from 'lit';
  * ```
  *
  * @example
- * # Custom slotted label
+ * # Without label (use external label)
  * ```html
  * <m-radio>
- *   <input type="radio" name="choice" value="2">
- *   <span slot="label">Custom <strong>label</strong></span>
+ *   <input type="radio" id="opt1" name="choice" value="2">
  * </m-radio>
+ * <label for="opt1">External label</label>
  * ```
  *
  * @example
@@ -119,14 +118,6 @@ export class MRadio extends LitElement {
     .label-text:empty {
       display: none;
     }
-
-    ::slotted([slot="label"]) {
-      font-family: var(--m-font-family, inherit);
-      font-size: var(--m-font-size-base, 1rem);
-      line-height: 1.5;
-      color: var(--m-radio-label-color, inherit);
-      user-select: none;
-    }
   `;
 
   static properties = {
@@ -159,9 +150,7 @@ export class MRadio extends LitElement {
     return html`
       <label class="radio-wrapper">
         <slot></slot>
-        <slot name="label">
-          ${this.label ? html`<span class="label-text">${this.label}</span>` : ''}
-        </slot>
+        ${this.label ? html`<span class="label-text">${this.label}</span>` : ''}
       </label>
     `;
   }

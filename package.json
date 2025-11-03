@@ -16,6 +16,7 @@
     "docs:dev": "npm run dev --workspace=apps/docs",
     "docs:build": "npm run build --workspace=apps/docs",
     "test": "npm run test --workspaces --if-present",
+    "test:serve": "npx @web/dev-server --node-resolve --open=/packages/components/test/index.html",
     "lint": "npm run lint --workspaces --if-present",
     "lint:fix": "npm run lint:fix --workspaces --if-present",
     "deps:update": "npm update --workspaces",
