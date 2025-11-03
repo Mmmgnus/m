@@ -307,6 +307,126 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/checkbox/m-checkbox.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A checkbox component that wraps a native checkbox input element.\nUses shadow DOM with slots for style isolation while preserving perfect accessibility.\nWraps content in a <label> element for implicit label association.",
+          "name": "MCheckbox",
+          "slots": [
+            {
+              "description": "Native <input type=\"checkbox\"> element",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "defaultTagName",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'m-checkbox'"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Label text displayed next to the checkbox",
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Label text displayed next to the checkbox",
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "m-checkbox",
+          "examples": [
+            {
+              "title": "Basic usage with label prop",
+              "description": "",
+              "code": "<m-checkbox label=\"I agree to the terms\">\n  <input type=\"checkbox\" name=\"terms\">\n</m-checkbox>"
+            },
+            {
+              "title": "Without label (use external label)",
+              "description": "",
+              "code": "<m-checkbox>\n  <input type=\"checkbox\" id=\"terms\" name=\"terms\">\n</m-checkbox>\n<label for=\"terms\">External label</label>"
+            },
+            {
+              "title": "Disabled state",
+              "description": "",
+              "code": "<m-checkbox label=\"Not available\">\n  <input type=\"checkbox\" name=\"unavailable\" disabled>\n</m-checkbox>"
+            }
+          ],
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "register",
+          "parameters": [
+            {
+              "name": "tagName",
+              "default": "MCheckbox.defaultTagName",
+              "description": "The tag name to register the component as",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Register the MCheckbox component",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MCheckbox",
+          "declaration": {
+            "name": "MCheckbox",
+            "module": "src/checkbox/m-checkbox.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "register",
+          "declaration": {
+            "name": "register",
+            "module": "src/checkbox/m-checkbox.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tagName",
+          "declaration": {
+            "name": "MCheckbox",
+            "module": "src/checkbox/m-checkbox.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/input/m-input.js",
       "declarations": [
         {
@@ -345,6 +465,12 @@
               "kind": "method",
               "name": "_setupErrorHelp",
               "description": "Setup error/help elements in light DOM for ARIA accessibility",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setupLabelClick",
+              "description": "Setup click handler for label to focus input",
               "privacy": "private"
             },
             {
@@ -544,126 +670,6 @@
           "declaration": {
             "name": "MInput",
             "module": "src/input/m-input.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/checkbox/m-checkbox.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "A checkbox component that wraps a native checkbox input element.\nUses shadow DOM with slots for style isolation while preserving perfect accessibility.\nWraps content in a <label> element for implicit label association.",
-          "name": "MCheckbox",
-          "slots": [
-            {
-              "description": "Native <input type=\"checkbox\"> element",
-              "name": ""
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "defaultTagName",
-              "type": {
-                "text": "string"
-              },
-              "static": true,
-              "default": "'m-checkbox'"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "description": "Label text displayed next to the checkbox",
-              "default": "''",
-              "attribute": "label"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "description": "Label text displayed next to the checkbox",
-              "default": "''",
-              "fieldName": "label"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "m-checkbox",
-          "examples": [
-            {
-              "title": "Basic usage with label prop",
-              "description": "",
-              "code": "<m-checkbox label=\"I agree to the terms\">\n  <input type=\"checkbox\" name=\"terms\">\n</m-checkbox>"
-            },
-            {
-              "title": "Without label (use external label)",
-              "description": "",
-              "code": "<m-checkbox>\n  <input type=\"checkbox\" id=\"terms\" name=\"terms\">\n</m-checkbox>\n<label for=\"terms\">External label</label>"
-            },
-            {
-              "title": "Disabled state",
-              "description": "",
-              "code": "<m-checkbox label=\"Not available\">\n  <input type=\"checkbox\" name=\"unavailable\" disabled>\n</m-checkbox>"
-            }
-          ],
-          "customElement": true
-        },
-        {
-          "kind": "function",
-          "name": "register",
-          "parameters": [
-            {
-              "name": "tagName",
-              "default": "MCheckbox.defaultTagName",
-              "description": "The tag name to register the component as",
-              "optional": true,
-              "type": {
-                "text": "string"
-              }
-            }
-          ],
-          "description": "Register the MCheckbox component",
-          "return": {
-            "type": {
-              "text": "string"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "MCheckbox",
-          "declaration": {
-            "name": "MCheckbox",
-            "module": "src/checkbox/m-checkbox.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "register",
-          "declaration": {
-            "name": "register",
-            "module": "src/checkbox/m-checkbox.js"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "tagName",
-          "declaration": {
-            "name": "MCheckbox",
-            "module": "src/checkbox/m-checkbox.js"
           }
         }
       ]

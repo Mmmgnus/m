@@ -210,6 +210,7 @@ export class MInput extends LitElement {
     await this.updateComplete;
     this._setupErrorHelp();
     this._connectAria();
+    this._setupLabelClick();
   }
 
   async updated(changedProperties) {
@@ -284,6 +285,23 @@ export class MInput extends LitElement {
       const autoHelp = this.querySelector('[slot="help"][data-auto]');
       if (autoHelp) autoHelp.remove();
     }
+  }
+
+  /**
+   * Setup click handler for label to focus input
+   * @private
+   */
+  _setupLabelClick() {
+    const label = this.shadowRoot.querySelector('.m-input__label');
+    if (!label) return;
+
+    label.style.cursor = 'pointer';
+    label.addEventListener('click', () => {
+      const input = this.querySelector('input, textarea, select');
+      if (input && !input.disabled) {
+        input.focus();
+      }
+    });
   }
 
   /**
