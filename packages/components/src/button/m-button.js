@@ -8,9 +8,46 @@ import { LitElement, html, css } from 'lit';
  * @slot - Native <button> element
  *
  * @example
- * <m-button variant="primary">
- *   <button type="submit">Submit</button>
+ * # Variants
+ * ```html
+ * <m-button>
+ *   <button type="button">Default</button>
  * </m-button>
+ * <m-button variant="primary">
+ *   <button type="button">Primary</button>
+ * </m-button>
+ * <m-button variant="secondary">
+ *   <button type="button">Secondary</button>
+ * </m-button>
+ * <m-button variant="outline">
+ *   <button type="button">Outline</button>
+ * </m-button>
+ * ```
+ *
+ * @example
+ * # Sizes
+ * ```html
+ * <m-button size="small" variant="primary">
+ *   <button type="button">Small</button>
+ * </m-button>
+ * <m-button size="medium" variant="primary">
+ *   <button type="button">Medium</button>
+ * </m-button>
+ * <m-button size="large" variant="primary">
+ *   <button type="button">Large</button>
+ * </m-button>
+ * ```
+ *
+ * @example
+ * # States
+ * ```html
+ * <m-button variant="primary">
+ *   <button type="button">Enabled</button>
+ * </m-button>
+ * <m-button variant="primary">
+ *   <button type="button" disabled>Disabled</button>
+ * </m-button>
+ * ```
  */
 export class MButton extends LitElement {
   static defaultTagName = 'm-button';

@@ -107,6 +107,23 @@
             "package": "lit"
           },
           "tagName": "m-button",
+          "examples": [
+            {
+              "title": "Variants",
+              "description": "",
+              "code": "<m-button>\n  <button type=\"button\">Default</button>\n</m-button>\n<m-button variant=\"primary\">\n  <button type=\"button\">Primary</button>\n</m-button>\n<m-button variant=\"secondary\">\n  <button type=\"button\">Secondary</button>\n</m-button>\n<m-button variant=\"outline\">\n  <button type=\"button\">Outline</button>\n</m-button>"
+            },
+            {
+              "title": "Sizes",
+              "description": "",
+              "code": "<m-button size=\"small\" variant=\"primary\">\n  <button type=\"button\">Small</button>\n</m-button>\n<m-button size=\"medium\" variant=\"primary\">\n  <button type=\"button\">Medium</button>\n</m-button>\n<m-button size=\"large\" variant=\"primary\">\n  <button type=\"button\">Large</button>\n</m-button>"
+            },
+            {
+              "title": "States",
+              "description": "",
+              "code": "<m-button variant=\"primary\">\n  <button type=\"button\">Enabled</button>\n</m-button>\n<m-button variant=\"primary\">\n  <button type=\"button\" disabled>Disabled</button>\n</m-button>"
+            }
+          ],
           "customElement": true
         },
         {
@@ -196,6 +213,23 @@
             "package": "lit"
           },
           "tagName": "m-button-label",
+          "examples": [
+            {
+              "title": "Icon Before Text",
+              "description": "",
+              "code": "<m-button variant=\"primary\">\n  <button>\n    <m-button-label>\n      <svg slot=\"start\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z\"/>\n      </svg>\n      Dashboard\n    </m-button-label>\n  </button>\n</m-button>\n<m-button variant=\"secondary\">\n  <button>\n    <m-button-label>\n      <svg slot=\"start\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z\"/>\n        <path d=\"M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319z\"/>\n      </svg>\n      Settings\n    </m-button-label>\n  </button>\n</m-button>"
+            },
+            {
+              "title": "Icon After Text",
+              "description": "",
+              "code": "<m-button variant=\"primary\">\n  <button>\n    <m-button-label>\n      Next Step\n      <svg slot=\"end\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path fill-rule=\"evenodd\" d=\"M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z\"/>\n      </svg>\n    </m-button-label>\n  </button>\n</m-button>\n<m-button variant=\"secondary\">\n  <button>\n    <m-button-label>\n      Download\n      <svg slot=\"end\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z\"/>\n        <path d=\"M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z\"/>\n      </svg>\n    </m-button-label>\n  </button>\n</m-button>"
+            },
+            {
+              "title": "Icon Only",
+              "description": "",
+              "code": "<m-button variant=\"primary\">\n  <button aria-label=\"Search\">\n    <m-button-label>\n      <svg slot=\"start\" width=\"20\" height=\"20\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z\"/>\n      </svg>\n    </m-button-label>\n  </button>\n</m-button>\n<m-button variant=\"outline\">\n  <button aria-label=\"Close\">\n    <m-button-label>\n      <svg slot=\"start\" width=\"20\" height=\"20\" viewBox=\"0 0 16 16\" fill=\"currentColor\">\n        <path d=\"M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z\"/>\n      </svg>\n    </m-button-label>\n  </button>\n</m-button>"
+            }
+          ],
           "customElement": true
         },
         {
@@ -412,6 +446,33 @@
             "package": "lit"
           },
           "tagName": "m-input",
+          "examples": [
+            {
+              "title": "Basic Input",
+              "description": "",
+              "code": "<m-input label=\"Email\" required>\n  <input type=\"email\" name=\"email\" placeholder=\"you@example.com\">\n</m-input>"
+            },
+            {
+              "title": "With Help Text",
+              "description": "",
+              "code": "<m-input label=\"Password\" help=\"Must be at least 8 characters\">\n  <input type=\"password\" name=\"password\">\n</m-input>"
+            },
+            {
+              "title": "With Error",
+              "description": "",
+              "code": "<m-input label=\"Username\" error=\"This username is already taken\">\n  <input type=\"text\" name=\"username\" value=\"john\">\n</m-input>"
+            },
+            {
+              "title": "Sizes",
+              "description": "",
+              "code": "<m-input label=\"Small\" size=\"small\">\n  <input type=\"text\" placeholder=\"Small input\">\n</m-input>\n<m-input label=\"Medium (default)\" size=\"medium\">\n  <input type=\"text\" placeholder=\"Medium input\">\n</m-input>\n<m-input label=\"Large\" size=\"large\">\n  <input type=\"text\" placeholder=\"Large input\">\n</m-input>"
+            },
+            {
+              "title": "Disabled",
+              "description": "",
+              "code": "<m-input label=\"Disabled Field\">\n  <input type=\"text\" value=\"Cannot edit\" disabled>\n</m-input>"
+            }
+          ],
           "customElement": true
         },
         {

@@ -11,17 +11,50 @@ import { LitElement, html, css } from 'lit';
  * @slot help - Optional custom help text (rendered in light DOM for ARIA)
  *
  * @example
- * <!-- Simple usage with label property -->
+ * # Basic Input
+ * ```html
  * <m-input label="Email" required>
- *   <input type="email" name="email">
+ *   <input type="email" name="email" placeholder="you@example.com">
  * </m-input>
- * 
+ * ```
+ *
  * @example
- * <!-- Full control with label slot -->
- * <m-input>
- *   <label slot="label" for="my-input">Email Address</label>
- *   <input id="my-input" type="email" name="email">
+ * # With Help Text
+ * ```html
+ * <m-input label="Password" help="Must be at least 8 characters">
+ *   <input type="password" name="password">
  * </m-input>
+ * ```
+ *
+ * @example
+ * # With Error
+ * ```html
+ * <m-input label="Username" error="This username is already taken">
+ *   <input type="text" name="username" value="john">
+ * </m-input>
+ * ```
+ *
+ * @example
+ * # Sizes
+ * ```html
+ * <m-input label="Small" size="small">
+ *   <input type="text" placeholder="Small input">
+ * </m-input>
+ * <m-input label="Medium (default)" size="medium">
+ *   <input type="text" placeholder="Medium input">
+ * </m-input>
+ * <m-input label="Large" size="large">
+ *   <input type="text" placeholder="Large input">
+ * </m-input>
+ * ```
+ *
+ * @example
+ * # Disabled
+ * ```html
+ * <m-input label="Disabled Field">
+ *   <input type="text" value="Cannot edit" disabled>
+ * </m-input>
+ * ```
  */
 export class MInput extends LitElement {
   static defaultTagName = 'm-input';
