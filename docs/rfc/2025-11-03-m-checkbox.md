@@ -385,7 +385,7 @@ _No open questions at this time._
 
 ## Related Decisions (ADR)
 
-_No ADRs exist yet for this project._
+- [ADR-001: Shadow DOM + Slot Pattern for Form Components](../adr/001-shadow-dom-slot-pattern-for-form-components.md) - Architectural decision for form component implementation pattern
 
 ---
 
