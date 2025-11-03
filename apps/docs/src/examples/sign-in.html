@@ -69,12 +69,6 @@
       margin-top: 0.5rem;
     }
 
-    .remember-me {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-    }
 
     .forgot-password {
       color: var(--m-color-primary, #0066cc);
@@ -235,10 +229,9 @@
         </m-input>
 
         <div class="form-footer">
-          <label class="remember-me">
+          <m-checkbox label="Remember me">
             <input type="checkbox" name="remember" id="remember">
-            <span>Remember me</span>
-          </label>
+          </m-checkbox>
           <a href="#" class="forgot-password">Forgot password?</a>
         </div>
 
@@ -274,14 +267,17 @@
   <script type="module">
     import { register as registerButton } from '@frdh/m-components/button/m-button.js';
     import { register as registerInput } from '@frdh/m-components/input/m-input.js';
+    import { register as registerCheckbox } from '@frdh/m-components/checkbox/m-checkbox.js';
     
     // Register components
     registerButton();
     registerInput();
+    registerCheckbox();
 
     // Wait for components to be ready
     await customElements.whenDefined('m-button');
     await customElements.whenDefined('m-input');
+    await customElements.whenDefined('m-checkbox');
 
     // Get form elements
     const form = document.getElementById('sign-in-form');

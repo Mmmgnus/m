@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form Example - M Design System</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "lit": "https://cdn.jsdelivr.net/npm/lit@3.0.0/index.js",
+        "lit/": "https://cdn.jsdelivr.net/npm/lit@3.0.0/",
+        "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.0/reactive-element.js",
+        "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.0/",
+        "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3.0.0/lit-html.js",
+        "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3.0.0/",
+        "lit-element/lit-element.js": "https://cdn.jsdelivr.net/npm/lit-element@4.0.0/lit-element.js",
+        "@lwc/aria-reflection": "https://cdn.jsdelivr.net/npm/@lwc/aria-reflection@8.23.0/+esm",
+        "@frdh/m-components/": "/components-src/"
+      }
+    }
+  </script>
+  <style>
+    .registration-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem;
+    }
+
+    .registration-card {
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .registration-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .registration-header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.875rem;
+      color: #1a202c;
+    }
+
+    .registration-header p {
+      margin: 0;
+      color: #718096;
+      font-size: 0.875rem;
+    }
+
+    .registration-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-section {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 1.5rem;
+    }
+
+    .form-section:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .form-section-title {
+      font-weight: 600;
+      color: #2d3748;
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .preferences-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: #f7fafc;
+      border-radius: 0.25rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .form-actions m-button {
+      flex: 1;
+    }
+
+    .form-actions m-button button {
+      width: 100%;
+    }
+
+    /* Visually hidden but accessible to screen readers */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    /* Loading state */
+    .registration-form.loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    /* Success message */
+    .success-message {
+      padding: 1rem;
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 0.25rem;
+      color: #155724;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    /* Back link */
+    .back-link {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 0.25rem;
+      transition: background 0.2s;
+    }
+
+    .back-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sign-in-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.875rem;
+      color: #718096;
+    }
+
+    .sign-in-link a {
+      color: var(--m-color-primary, #0066cc);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .sign-in-link a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="/examples/" class="back-link">← Back to Examples</a>
+  
+  <div class="registration-page">
+    <div class="registration-card">
+      <div class="registration-header">
+        <h1>Create Account</h1>
+        <p>Fill out the form below to get started</p>
+      </div>
+
+      <!-- Live region for form submission feedback -->
+      <div role="status" aria-live="polite" aria-atomic="true" class="visually-hidden" id="form-status"></div>
+      
+      <div id="success-message" class="success-message" role="alert">
+        Account created successfully!
+      </div>
+
+      <form class="registration-form" id="registration-form" novalidate>
+        <!-- Personal Information -->
+        <div class="form-section">
+          <h2 class="form-section-title">Personal Information</h2>
+          
+          <div class="form-row">
+            <m-input 
+              id="first-name-input" 
+              label="First name" 
+              required
+            >
+              <input 
+                type="text" 
+                name="firstName" 
+                id="first-name"
+                autocomplete="given-name"
+                required
+              >
+            </m-input>
+
+            <m-input 
+              id="last-name-input" 
+              label="Last name" 
+              required
+            >
+              <input 
+                type="text" 
+                name="lastName" 
+                id="last-name"
+                autocomplete="family-name"
+                required
+              >
+            </m-input>
+          </div>
+
+          <m-input 
+            id="email-input" 
+            label="Email address" 
+            required
+            help="We'll never share your email with anyone else"
+          >
+            <input 
+              type="email" 
+              name="email" 
+              id="email"
+              autocomplete="email"
+              required
+            >
+          </m-input>
+
+          <m-input 
+            id="password-input" 
+            label="Password" 
+            required
+            help="Must be at least 8 characters"
+          >
+            <input 
+              type="password" 
+              name="password" 
+              id="password"
+              autocomplete="new-password"
+              required
+            >
+          </m-input>
+        </div>
+
+        <!-- Account Type -->
+        <div class="form-section">
+          <h2 class="form-section-title">Account Type</h2>
+          
+          <m-radio-group name="account-type" label="Select your account type" id="account-type-group">
+            <m-radio label="Personal - For individual use">
+              <input type="radio" name="accountType" value="personal" checked>
+            </m-radio>
+            <m-radio label="Business - For companies and teams">
+              <input type="radio" name="accountType" value="business">
+            </m-radio>
+            <m-radio label="Student - For educational purposes">
+              <input type="radio" name="accountType" value="student">
+            </m-radio>
+          </m-radio-group>
+        </div>
+
+        <!-- Preferences -->
+        <div class="form-section">
+          <h2 class="form-section-title">Communication Preferences</h2>
+          
+          <fieldset class="preferences-group" style="border: none; margin: 0; padding: 1rem;">
+            <legend class="visually-hidden">Email preferences</legend>
+            
+            <m-checkbox label="Product updates and announcements">
+              <input type="checkbox" name="emailUpdates" value="yes">
+            </m-checkbox>
+
+            <m-checkbox label="Weekly newsletter with tips and best practices">
+              <input type="checkbox" name="emailNewsletter" value="yes">
+            </m-checkbox>
+
+            <m-checkbox label="Security and account alerts" id="security-alerts">
+              <input type="checkbox" name="emailSecurity" value="yes" checked disabled>
+            </m-checkbox>
+            <small style="color: #718096; margin-top: -0.5rem; margin-left: 1.75rem;">
+              Required for account security
+            </small>
+          </fieldset>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="form-section">
+          <m-checkbox label="I agree to the Terms of Service and Privacy Policy" id="terms-checkbox">
+            <input type="checkbox" name="terms" id="terms" required>
+          </m-checkbox>
+
+          <m-checkbox label="I want to receive promotional offers (optional)">
+            <input type="checkbox" name="marketing" value="yes">
+          </m-checkbox>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <m-button variant="outline">
+            <button type="reset" id="reset-btn">
+              Reset
+            </button>
+          </m-button>
+
+          <m-button variant="primary" size="large">
+            <button type="submit" id="submit-btn">
+              Create Account
+            </button>
+          </m-button>
+        </div>
+      </form>
+
+      <div class="sign-in-link">
+        Already have an account? <a href="/examples/sign-in.html">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { register as registerButton } from '@frdh/m-components/button/m-button.js';
+    import { register as registerInput } from '@frdh/m-components/input/m-input.js';
+    import { register as registerCheckbox } from '@frdh/m-components/checkbox/m-checkbox.js';
+    import { register as registerRadio } from '@frdh/m-components/radio/m-radio.js';
+    import { register as registerRadioGroup } from '@frdh/m-components/radio/m-radio-group.js';
+    
+    // Register components
+    registerButton();
+    registerInput();
+    registerCheckbox();
+    registerRadio();
+    registerRadioGroup();
+
+    // Wait for components to be ready
+    await customElements.whenDefined('m-button');
+    await customElements.whenDefined('m-input');
+    await customElements.whenDefined('m-checkbox');
+    await customElements.whenDefined('m-radio');
+    await customElements.whenDefined('m-radio-group');
+
+    // Get form elements
+    const form = document.getElementById('registration-form');
+    const firstNameInput = document.getElementById('first-name-input');
+    const lastNameInput = document.getElementById('last-name-input');
+    const emailInput = document.getElementById('email-input');
+    const passwordInput = document.getElementById('password-input');
+    const termsCheckbox = document.getElementById('terms-checkbox');
+    
+    const firstNameField = document.getElementById('first-name');
+    const lastNameField = document.getElementById('last-name');
+    const emailField = document.getElementById('email');
+    const passwordField = document.getElementById('password');
+    const termsField = document.getElementById('terms');
+    
+    const submitBtn = document.getElementById('submit-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const formStatus = document.getElementById('form-status');
+    const successMessage = document.getElementById('success-message');
+
+    // Validation functions
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 8;
+    }
+
+    function validateRequired(value) {
+      return value.trim().length > 0;
+    }
+
+    // Real-time validation
+    firstNameField.addEventListener('blur', () => {
+      const value = firstNameField.value.trim();
+      if (!validateRequired(value)) {
+        firstNameInput.error = 'First name is required';
+      } else {
+        firstNameInput.error = '';
+      }
+    });
+
+    firstNameField.addEventListener('input', () => {
+      if (firstNameInput.error && firstNameField.value.trim()) {
+        firstNameInput.error = '';
+      }
+    });
+
+    lastNameField.addEventListener('blur', () => {
+      const value = lastNameField.value.trim();
+      if (!validateRequired(value)) {
+        lastNameInput.error = 'Last name is required';
+      } else {
+        lastNameInput.error = '';
+      }
+    });
+
+    lastNameField.addEventListener('input', () => {
+      if (lastNameInput.error && lastNameField.value.trim()) {
+        lastNameInput.error = '';
+      }
+    });
+
+    emailField.addEventListener('blur', () => {
+      const value = emailField.value.trim();
+      
+      if (!value) {
+        emailInput.error = 'Email address is required';
+      } else if (!validateEmail(value)) {
+        emailInput.error = 'Please enter a valid email address';
+      } else {
+        emailInput.error = '';
+      }
+    });
+
+    emailField.addEventListener('input', () => {
+      if (emailInput.error && emailField.value.trim()) {
+        emailInput.error = '';
+      }
+    });
+
+    passwordField.addEventListener('blur', () => {
+      const value = passwordField.value;
+      
+      if (!value) {
+        passwordInput.error = 'Password is required';
+      } else if (!validatePassword(value)) {
+        passwordInput.error = 'Password must be at least 8 characters';
+      } else {
+        passwordInput.error = '';
+      }
+    });
+
+    passwordField.addEventListener('input', () => {
+      if (passwordInput.error && passwordField.value) {
+        passwordInput.error = '';
+      }
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Validate all fields
+      const firstName = firstNameField.value.trim();
+      const lastName = lastNameField.value.trim();
+      const email = emailField.value.trim();
+      const password = passwordField.value;
+      const termsAccepted = termsField.checked;
+      let hasErrors = false;
+
+      // Validate first name
+      if (!validateRequired(firstName)) {
+        firstNameInput.error = 'First name is required';
+        hasErrors = true;
+      } else {
+        firstNameInput.error = '';
+      }
+
+      // Validate last name
+      if (!validateRequired(lastName)) {
+        lastNameInput.error = 'Last name is required';
+        hasErrors = true;
+      } else {
+        lastNameInput.error = '';
+      }
+
+      // Validate email
+      if (!email) {
+        emailInput.error = 'Email address is required';
+        hasErrors = true;
+      } else if (!validateEmail(email)) {
+        emailInput.error = 'Please enter a valid email address';
+        hasErrors = true;
+      } else {
+        emailInput.error = '';
+      }
+
+      // Validate password
+      if (!password) {
+        passwordInput.error = 'Password is required';
+        hasErrors = true;
+      } else if (!validatePassword(password)) {
+        passwordInput.error = 'Password must be at least 8 characters';
+        hasErrors = true;
+      } else {
+        passwordInput.error = '';
+      }
+
+      // Validate terms
+      if (!termsAccepted) {
+        // For checkboxes, we show a visual indicator differently
+        termsField.setAttribute('aria-invalid', 'true');
+        formStatus.textContent = 'You must accept the Terms of Service to continue.';
+        hasErrors = true;
+      } else {
+        termsField.setAttribute('aria-invalid', 'false');
+      }
+
+      // If there are errors, focus on the first error field
+      if (hasErrors) {
+        if (firstNameInput.error) {
+          firstNameField.focus();
+        } else if (lastNameInput.error) {
+          lastNameField.focus();
+        } else if (emailInput.error) {
+          emailField.focus();
+        } else if (passwordInput.error) {
+          passwordField.focus();
+        } else if (!termsAccepted) {
+          termsField.focus();
+        }
+        
+        if (!formStatus.textContent) {
+          formStatus.textContent = 'Form has errors. Please correct them and try again.';
+        }
+        return;
+      }
+
+      // Get all form data
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Simulate form submission
+      form.classList.add('loading');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating account...';
+      formStatus.textContent = 'Creating your account, please wait...';
+
+      // Simulate API call
+      setTimeout(() => {
+        form.classList.remove('loading');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+        
+        // Show success
+        successMessage.classList.add('show');
+        formStatus.textContent = 'Account created successfully! Redirecting to your dashboard...';
+        
+        // Log form data (in a real app, this would be sent to a server)
+        console.log('✅ Registration successful:', {
+          ...data,
+          password: '***' // Don't log passwords
+        });
+        
+        // Reset form after showing success
+        setTimeout(() => {
+          form.reset();
+          successMessage.classList.remove('show');
+          formStatus.textContent = '';
+        }, 3000);
+      }, 1500);
+    });
+
+    // Reset button handler
+    resetBtn.addEventListener('click', () => {
+      // Clear all errors
+      firstNameInput.error = '';
+      lastNameInput.error = '';
+      emailInput.error = '';
+      passwordInput.error = '';
+      formStatus.textContent = '';
+      termsField.setAttribute('aria-invalid', 'false');
+    });
+
+    // Demonstration tips
+    console.log('🎯 Try these to test the example:');
+    console.log('  1. Submit the form empty to see all validation errors');
+    console.log('  2. Fill fields one by one and blur to see individual field validation');
+    console.log('  3. Try different account types with radio buttons');
+    console.log('  4. Toggle checkboxes to see form preferences');
+    console.log('  5. Try to submit without accepting terms');
+    console.log('  6. Use keyboard navigation (Tab/Shift+Tab) to move through the form');
+    console.log('  7. Use a screen reader to experience accessibility features');
+  </script>
+</body>
+</html>
