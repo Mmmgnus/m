@@ -207,21 +207,59 @@ pre code {
 
 /* Example */
 .example {
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  overflow: hidden;
   margin-top: var(--spacing-lg);
 }
 
-.example h4 {
-  font-size: 1rem;
-  margin: var(--spacing-md) 0 var(--spacing-sm);
-  color: var(--color-text-light);
-  font-weight: 500;
+.example-section {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: var(--spacing-md);
 }
 
-.example h4:first-of-type {
-  margin-top: 0;
+.example-section h4 {
+  font-size: 1rem;
+  margin: 0;
+  padding: var(--spacing-md);
+  background: var(--color-bg-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.example-section > p {
+  padding: var(--spacing-sm) var(--spacing-md) 0;
+  margin: 0;
+  color: var(--color-text-light);
+  font-size: 0.95rem;
+}
+
+.example-code {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.example-code summary {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-bg-secondary);
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+}
+
+.example-code summary:hover {
+  background: #f3f4f6;
+}
+
+.example-code pre {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+}
+
+.example-code code {
+  font-size: 0.85rem;
+  line-height: 1.6;
 }
 
 .example-preview {
@@ -230,11 +268,20 @@ pre code {
   display: flex;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
+  position: relative;
 }
 
-.example-preview + h4 {
-  margin-top: var(--spacing-lg);
+.preview-label {
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  opacity: 0.5;
+  letter-spacing: 0.05em;
 }
 
 /* Footer */

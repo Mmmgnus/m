@@ -23,17 +23,43 @@ function generateExamplesFromCEM(examples) {
     const titleHtml = example.title ? `<h4>${example.title}</h4>` : '';
     const descriptionHtml = example.description ? `<p>${example.description}</p>` : '';
     
+    // Escape HTML for code display
+    const escapedCode = escapeHtml(example.code);
+    
     return `
-      ${index === 0 ? '<section class="example"><h3>Live Examples</h3>' : ''}
-      ${titleHtml}
-      ${descriptionHtml}
-      <div class="example-preview">
-        ${example.code}
+      ${index === 0 ? '<section class="example"><h3>Examples</h3>' : ''}
+      <div class="example-section">
+        ${titleHtml}
+        ${descriptionHtml}
+        
+        <details class="example-code" open>
+          <summary>Code</summary>
+          <pre><code class="language-html">${escapedCode}</code></pre>
+        </details>
+        
+        <div class="example-preview">
+          <div class="preview-label">Preview</div>
+          ${example.code}
+        </div>
       </div>
     `;
   }).join('\n');
 
   return sections + '</section>';
+}
+
+/**
+ * Escape HTML for display in code blocks
+ * @param {string} html - HTML to escape
+ * @returns {string}
+ */
+function escapeHtml(html) {
+  return html
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 /**
