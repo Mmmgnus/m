@@ -17,6 +17,14 @@
         },
         {
           "kind": "js",
+          "name": "MButtonLabel",
+          "declaration": {
+            "name": "MButtonLabel",
+            "module": "./button-label/m-button-label.js"
+          }
+        },
+        {
+          "kind": "js",
           "name": "MInput",
           "declaration": {
             "name": "MInput",
@@ -146,6 +154,95 @@
           "declaration": {
             "name": "MButton",
             "module": "src/button/m-button.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/button-label/m-button-label.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A button label component for organizing button content with icons.\nProvides start and end slots for icon positioning around the label text.",
+          "name": "MButtonLabel",
+          "slots": [
+            {
+              "description": "Content to display before the label (typically an icon)",
+              "name": "start"
+            },
+            {
+              "description": "Default slot for the label text",
+              "name": ""
+            },
+            {
+              "description": "Content to display after the label (typically an icon)",
+              "name": "end"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "defaultTagName",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'m-button-label'"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "m-button-label",
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "register",
+          "parameters": [
+            {
+              "name": "tagName",
+              "default": "MButtonLabel.defaultTagName",
+              "description": "The tag name to register the component as",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Register the MButtonLabel component",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MButtonLabel",
+          "declaration": {
+            "name": "MButtonLabel",
+            "module": "src/button-label/m-button-label.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "register",
+          "declaration": {
+            "name": "register",
+            "module": "src/button-label/m-button-label.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tagName",
+          "declaration": {
+            "name": "MButtonLabel",
+            "module": "src/button-label/m-button-label.js"
           }
         }
       ]

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styling Override Test - M Design System</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "lit": "https://cdn.jsdelivr.net/npm/lit@3.0.0/index.js",
+        "lit/": "https://cdn.jsdelivr.net/npm/lit@3.0.0/",
+        "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.0/reactive-element.js",
+        "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.0/",
+        "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3.0.0/lit-html.js",
+        "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3.0.0/",
+        "lit-element/lit-element.js": "https://cdn.jsdelivr.net/npm/lit-element@4.0.0/lit-element.js",
+        "@lwc/aria-reflection": "https://cdn.jsdelivr.net/npm/@lwc/aria-reflection@8.23.0/+esm",
+        "@frdh/m-components/": "/components-src/"
+      }
+    }
+  </script>
+  <style>
+    .test-section {
+      margin: 2rem 0;
+      padding: 2rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 0.5rem;
+    }
+
+    .test-section h3 {
+      margin-top: 0;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+
+    /* TEST 1: Try to override with low specificity */
+    button {
+      /* This WON'T override ::slotted() with :host([variant]) */
+      background: red !important;
+    }
+
+    /* TEST 2: More specific page-level styles */
+    .override-test button {
+      background: purple;
+      border-color: purple;
+      color: white;
+    }
+
+    /* TEST 3: Even more specific */
+    m-button.force-override button {
+      background: orange !important;
+      border: 3px dashed black !important;
+    }
+  </style>
+</head>
+<body>
+  <a href="/examples/" style="display: inline-block; margin: 1rem; color: #0066cc; text-decoration: none;">← Back to Examples</a>
+  
+  <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    <h1>Styling Override Test</h1>
+    <p class="lead">Testing whether page-level CSS can override component styles</p>
+
+    <section class="test-section">
+      <h3>Test 1: Global <code>button</code> selector with !important</h3>
+      <p>Page CSS: <code>button { background: red !important; }</code></p>
+      <div class="button-row">
+        <m-button variant="primary">
+          <button type="button">Primary Button</button>
+        </m-button>
+        <m-button variant="secondary">
+          <button type="button">Secondary Button</button>
+        </m-button>
+        <p><strong>Expected:</strong> Component styles WIN (because of :host() specificity)</p>
+      </div>
+    </section>
+
+    <section class="test-section override-test">
+      <h3>Test 2: More specific selector</h3>
+      <p>Page CSS: <code>.override-test button { background: purple; }</code></p>
+      <div class="button-row">
+        <m-button variant="primary">
+          <button type="button">Primary Button</button>
+        </m-button>
+        <m-button variant="outline">
+          <button type="button">Outline Button</button>
+        </m-button>
+        <p><strong>Expected:</strong> Page styles might WIN (class selector vs ::slotted)</p>
+      </div>
+    </section>
+
+    <section class="test-section">
+      <h3>Test 3: Component + class with !important</h3>
+      <p>Page CSS: <code>m-button.force-override button { background: orange !important; }</code></p>
+      <div class="button-row">
+        <m-button variant="primary" class="force-override">
+          <button type="button">Primary Button</button>
+        </m-button>
+        <m-button variant="secondary" class="force-override">
+          <button type="button">Secondary Button</button>
+        </m-button>
+        <p><strong>Expected:</strong> !important WILL WIN</p>
+      </div>
+    </section>
+
+    <section class="test-section">
+      <h3>Test 4: No overrides (control)</h3>
+      <p>No page-level CSS targeting these buttons</p>
+      <div class="button-row" style="background: white; padding: 1rem; border-radius: 0.25rem;">
+        <m-button variant="primary">
+          <button type="button">Primary</button>
+        </m-button>
+        <m-button variant="secondary">
+          <button type="button">Secondary</button>
+        </m-button>
+        <m-button variant="outline">
+          <button type="button">Outline</button>
+        </m-button>
+        <p><strong>Expected:</strong> Component styles work perfectly</p>
+      </div>
+    </section>
+
+    <section class="test-section" style="background: #fffbeb; border-color: #fbbf24;">
+      <h3>⚠️ Findings</h3>
+      <p>Open DevTools and inspect the buttons to see which styles win. The specificity battle is:</p>
+      <ul>
+        <li><code>::slotted(button)</code> = (0,0,1)</li>
+        <li><code>:host([variant]) ::slotted(button)</code> = (0,1,1)</li>
+        <li><code>button</code> = (0,0,1)</li>
+        <li><code>.class button</code> = (0,1,1)</li>
+        <li><code>m-button button</code> = (0,0,2)</li>
+      </ul>
+      <p><strong>The :host([variant]) selector gives you (0,1,1) which ties with class selectors!</strong></p>
+    </section>
+
+    <section class="test-section" style="background: #ecfdf5; border-color: #10b981;">
+      <h3>✅ Solution: This is Actually Fine</h3>
+      <p>Your component uses <code>:host([variant])</code> which has enough specificity to beat simple selectors. The only way users can override is:</p>
+      <ol>
+        <li>Using <code>!important</code> (intentional override)</li>
+        <li>Using more specific selectors (also intentional)</li>
+      </ol>
+      <p><strong>This is exactly the right balance:</strong> Protection by default, customization when needed.</p>
+    </section>
+  </div>
+
+  <script type="module">
+    import { register as registerButton } from '@frdh/m-components/button/m-button.js';
+    registerButton();
+    await customElements.whenDefined('m-button');
+    console.log('Test page loaded. Inspect buttons to see styling behavior.');
+  </script>
+</body>
+</html>
