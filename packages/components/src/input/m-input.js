@@ -277,6 +277,14 @@ export class MInput extends LitElement {
     const errorEl = this.querySelector('[slot="error"]');
     const helpEl = this.querySelector('[slot="help"]');
     
+    // Ensure error/help elements have IDs (even if user-provided)
+    if (errorEl && !errorEl.id) {
+      errorEl.id = `${input.id}-error`;
+    }
+    if (helpEl && !helpEl.id) {
+      helpEl.id = `${input.id}-help`;
+    }
+    
     // Set aria-invalid
     if (errorEl) {
       input.setAttribute('aria-invalid', 'true');

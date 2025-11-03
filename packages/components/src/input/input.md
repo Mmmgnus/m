@@ -114,6 +114,33 @@ import '@frdh/m-components/auto-register';
 </m-input>
 ```
 
+### Custom Error/Help (Slotted)
+
+For full control over error/help styling and content, provide your own elements:
+
+```html
+<!-- Custom error with icon and styling -->
+<m-input label="Email">
+  <input type="email" name="email">
+  <div slot="error" id="email-error" style="color: #dc3545; font-size: 0.875rem;">
+    <strong>⚠️ Error:</strong> Please enter a valid email address
+  </div>
+</m-input>
+
+<!-- Custom help with rich formatting -->
+<m-input label="Password">
+  <input type="password" name="password">
+  <div slot="help" id="pwd-help" style="color: #666; font-size: 0.875rem;">
+    💡 <em>Tip:</em> Use at least 12 characters with mixed case
+  </div>
+</m-input>
+```
+
+**Note**: When providing custom error/help slots, make sure to:
+1. Add an `id` attribute for ARIA references (component will connect it automatically)
+2. Style the element yourself (component only provides slot placement)
+3. Don't use `data-auto` attribute (reserved for auto-generated elements)
+
 ## Accessibility
 
 ### ARIA Element Reflection

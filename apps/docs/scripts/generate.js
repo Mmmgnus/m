@@ -286,6 +286,23 @@ function generateComponentExamples(component) {
           </m-input>
         </div>
         
+        <h4>Custom Error/Help (Slotted)</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px; gap: 1rem;">
+          <m-input label="Email">
+            <input type="email" name="email">
+            <div slot="error" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+              <strong>⚠️ Error:</strong> Please enter a valid email address
+            </div>
+          </m-input>
+          
+          <m-input label="Password">
+            <input type="password" name="password">
+            <div slot="help" style="color: #666; font-size: 0.875rem; margin-top: 0.25rem;">
+              💡 <em>Tip:</em> Use at least 12 characters with mixed case
+            </div>
+          </m-input>
+        </div>
+        
         <h4>Accessibility (ARIA)</h4>
         <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px; gap: 1rem;">
           <div>
