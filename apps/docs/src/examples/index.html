@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examples - M Design System</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .examples-intro {
+      margin-bottom: 3rem;
+    }
+
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .example-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .example-card:hover {
+      border-color: var(--m-color-primary, #0066cc);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .example-card h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+    }
+
+    .example-card h3 a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .example-card h3 a:hover {
+      color: var(--m-color-primary, #0066cc);
+    }
+
+    .example-card p {
+      margin: 0 0 1rem 0;
+      color: #666;
+      flex: 1;
+    }
+
+    .example-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .example-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      color: #4a5568;
+    }
+
+    .example-screenshot {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 0.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="/">M Design System</a></h1>
+      <nav>
+        <a href="/">Components</a>
+        <a href="/examples/" style="font-weight: 600;">Examples</a>
+      </nav>
+    </div>
+  </header>
+  
+  <main class="container">
+    <nav class="breadcrumb">
+      <a href="/">Home</a> / <span>Examples</span>
+    </nav>
+    
+    <div class="examples-intro">
+      <h2>Examples</h2>
+      <p class="lead">
+        Real-world examples showcasing how to combine M components to build accessible, 
+        production-ready interfaces with proper validation and screen reader support.
+      </p>
+    </div>
+    
+    <div class="examples-grid">
+      <article class="example-card">
+        <div class="example-screenshot">🔐</div>
+        <h3><a href="/examples/sign-in.html">Sign In Form</a></h3>
+        <p>
+          A complete sign-in page with email/password validation, real-time error feedback, 
+          and excellent screen reader accessibility using ARIA live regions.
+        </p>
+        <div class="example-tags">
+          <span class="example-tag">m-input</span>
+          <span class="example-tag">m-button</span>
+          <span class="example-tag">validation</span>
+          <span class="example-tag">accessibility</span>
+        </div>
+      </article>
+
+      <article class="example-card">
+        <div class="example-screenshot" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">📝</div>
+        <h3><a href="#" style="color: #999;">Contact Form</a></h3>
+        <p>
+          Multi-field contact form with various input types, custom validation rules, 
+          and accessible error handling patterns.
+        </p>
+        <div class="example-tags">
+          <span class="example-tag">m-input</span>
+          <span class="example-tag">m-button</span>
+          <span class="example-tag">validation</span>
+          <span class="example-tag" style="background: #fff3cd; border-color: #ffc107; color: #856404;">Coming Soon</span>
+        </div>
+      </article>
+
+      <article class="example-card">
+        <div class="example-screenshot" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">⚙️</div>
+        <h3><a href="#" style="color: #999;">Settings Panel</a></h3>
+        <p>
+          Settings interface demonstrating various button types, form layouts, 
+          and proper keyboard navigation patterns.
+        </p>
+        <div class="example-tags">
+          <span class="example-tag">m-input</span>
+          <span class="example-tag">m-button</span>
+          <span class="example-tag">layout</span>
+          <span class="example-tag" style="background: #fff3cd; border-color: #ffc107; color: #856404;">Coming Soon</span>
+        </div>
+      </article>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>M Design System - A no-build, standards-first design system</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -722,6 +722,7 @@ async function generate() {
   // Create dist directory
   await mkdir(DIST_DIR, { recursive: true });
   await mkdir(join(DIST_DIR, 'components'), { recursive: true });
+  await mkdir(join(DIST_DIR, 'examples'), { recursive: true });
 
   // Generate index page
   console.log('Generating index page...');
@@ -753,6 +754,19 @@ async function generate() {
     );
   } catch (err) {
     console.warn('Warning: Could not copy component sources:', err.message);
+  }
+
+  // Copy examples
+  console.log('Copying examples...');
+  try {
+    const examplesDir = join(ROOT_DIR, 'src', 'examples');
+    await cp(
+      examplesDir,
+      join(DIST_DIR, 'examples'),
+      { recursive: true }
+    );
+  } catch (err) {
+    console.warn('Warning: Could not copy examples:', err.message);
   }
 
   console.log('\n✅ Documentation generated successfully!');
