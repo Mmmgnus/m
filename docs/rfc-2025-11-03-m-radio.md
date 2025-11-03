@@ -51,8 +51,7 @@ The component supports the following visual states:
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `variant` | `string` | `'default'` | Visual variant (`default`, `primary`, `secondary`) |
-| `size` | `string` | `'medium'` | Size variant (`small`, `medium`, `large`) |
+| `label` | `string` | `''` | Label text displayed next to the radio button |
 
 **Note:** The native `<input type="radio">` element inside the slot maintains its own native attributes (`name`, `value`, `checked`, `disabled`, `required`, etc.).
 
@@ -111,81 +110,103 @@ Following native HTML radio button behavior:
 
 ## API Design
 
+### m-radio Component API
+
+**Props/Attributes:**
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `label` | `string` | `''` | Label text displayed next to the radio button |
+
+**Slot:**
+- Default slot: Native `<input type="radio">` element
+
+### m-radio-group Component API
+
+**Props/Attributes:**
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `name` | `string` | `''` | Name for all radio buttons in the group |
+| `label` | `string` | `''` | Group label (rendered as `<legend>`) |
+| `orientation` | `string` | `'vertical'` | Layout direction (`vertical` or `horizontal`) |
+
+**Slot:**
+- Default slot: One or more `<m-radio>` components
+
+**Note:** The m-radio-group renders a `<fieldset>` with `<legend>` for proper semantic grouping.
+
 ### Component Usage
 
 ```html
 <!-- Basic usage -->
-<m-radio>
+<m-radio label="Option 1">
   <input type="radio" name="option" value="1">
 </m-radio>
 
-<!-- With variant -->
-<m-radio variant="primary">
-  <input type="radio" name="option" value="2">
-</m-radio>
-
-<!-- With size -->
-<m-radio size="large">
-  <input type="radio" name="option" value="3">
-</m-radio>
-
 <!-- Checked state -->
-<m-radio variant="primary">
-  <input type="radio" name="option" value="4" checked>
+<m-radio label="Option 2">
+  <input type="radio" name="option" value="2" checked>
 </m-radio>
 
 <!-- Disabled state -->
+<m-radio label="Option 3">
+  <input type="radio" name="option" value="3" disabled>
+</m-radio>
+
+<!-- Without label (custom positioning) -->
 <m-radio>
-  <input type="radio" name="option" value="5" disabled>
+  <input type="radio" name="option" value="4">
 </m-radio>
 ```
 
 ### Radio Group Pattern
 
 ```html
+<!-- Using m-radio-group component (recommended) -->
+<m-radio-group name="choice" label="Choose an option">
+  <m-radio label="Option 1">
+    <input type="radio" name="choice" value="option1">
+  </m-radio>
+  <m-radio label="Option 2">
+    <input type="radio" name="choice" value="option2" checked>
+  </m-radio>
+  <m-radio label="Option 3">
+    <input type="radio" name="choice" value="option3">
+  </m-radio>
+</m-radio-group>
+
+<!-- Manual grouping with fieldset (also supported) -->
 <fieldset>
   <legend>Choose an option</legend>
-  
-  <label>
-    <m-radio>
-      <input type="radio" name="choice" value="option1">
-    </m-radio>
-    Option 1
-  </label>
-  
-  <label>
-    <m-radio>
-      <input type="radio" name="choice" value="option2" checked>
-    </m-radio>
-    Option 2
-  </label>
-  
-  <label>
-    <m-radio>
-      <input type="radio" name="choice" value="option3">
-    </m-radio>
-    Option 3
-  </label>
+  <m-radio label="Option 1">
+    <input type="radio" name="choice" value="option1">
+  </m-radio>
+  <m-radio label="Option 2">
+    <input type="radio" name="choice" value="option2" checked>
+  </m-radio>
+  <m-radio label="Option 3">
+    <input type="radio" name="choice" value="option3">
+  </m-radio>
 </fieldset>
 ```
 
-### With ARIA Attributes
+### With ARIA Attributes and Help Text
 
 ```html
-<span id="group-label">Select your preference</span>
 <span id="help-text">Choose one option from the list</span>
 
-<div role="radiogroup" aria-labelledby="group-label" aria-describedby="help-text">
-  <m-radio>
-    <input type="radio" name="preference" value="a" id="opt-a">
+<m-radio-group 
+  name="preference" 
+  label="Select your preference" 
+  aria-describedby="help-text">
+  <m-radio label="Option A">
+    <input type="radio" name="preference" value="a">
   </m-radio>
-  <label for="opt-a">Option A</label>
-  
-  <m-radio>
-    <input type="radio" name="preference" value="b" id="opt-b">
+  <m-radio label="Option B">
+    <input type="radio" name="preference" value="b">
   </m-radio>
-  <label for="opt-b">Option B</label>
-</div>
+</m-radio-group>
 ```
 
 ---
@@ -197,8 +218,6 @@ Following native HTML radio button behavior:
 ```css
 /* Size and spacing */
 --m-radio-size: 20px;
---m-radio-size-small: 16px;
---m-radio-size-large: 24px;
 
 /* Border */
 --m-radio-border-width: 2px;
@@ -272,7 +291,8 @@ Following native HTML radio button behavior:
 
 ```
 packages/components/src/radio/
-├── m-radio.js           # Component implementation
+├── m-radio.js           # Radio button component
+├── m-radio-group.js     # Radio group wrapper component
 └── radio.md             # Usage documentation (optional)
 ```
 
@@ -296,11 +316,12 @@ All modern browsers supporting:
 ### Manual Testing Checklist
 
 - [ ] Visual states render correctly (default, checked, disabled, focus, hover)
-- [ ] All size variants render correctly (small, medium, large)
-- [ ] All style variants render correctly (default, primary, secondary)
+- [ ] Label displays correctly when provided
 - [ ] Focus indicator is clearly visible
 - [ ] Keyboard navigation works (Tab, Space, Arrow keys)
 - [ ] Radio grouping works correctly (only one selected at a time)
+- [ ] m-radio-group component groups radios correctly
+- [ ] m-radio-group legend/label displays correctly
 - [ ] Form submission includes correct values
 - [ ] Disabled state prevents interaction
 - [ ] CSS custom properties can be overridden
@@ -330,7 +351,8 @@ All modern browsers supporting:
 ## Migration & Rollout
 
 ### Phase 1: Initial Implementation
-- Create m-radio component following established patterns
+- Create m-radio component with built-in label support
+- Create m-radio-group component for grouping patterns
 - Generate Custom Elements Manifest and TypeScript definitions
 - Create manual test page
 
@@ -340,18 +362,18 @@ All modern browsers supporting:
 - Document accessibility features
 
 ### Phase 3: Integration
-- Add to auto-register.js
-- Update package.json exports
-- Create Storybook stories (if applicable)
+- Add both m-radio and m-radio-group to auto-register.js
+- Update package.json exports for both components
+- Create usage examples and stories
 
 ---
 
-## Open Questions
+## Decisions Made
 
-1. Should we provide a higher-level `m-radio-group` component for common grouping patterns?
-2. Should we include built-in label positioning options (left/right/top/bottom)?
-3. Should we support custom radio button shapes beyond circular (e.g., square variants)?
-4. Do we need variant styles beyond default/primary/secondary?
+1. ✅ **m-radio-group component**: Will be provided as a higher-level component for common grouping patterns with automatic legend/label and layout management.
+2. ✅ **Built-in label support**: The `label` prop will display a label next to the radio button. Multiple label positions are not needed initially - label will be positioned to the right of the radio button.
+3. ✅ **Circular shape only**: Radio buttons will remain circular per standard conventions. No square or custom shape variants needed.
+4. ✅ **Single variant**: Only one default visual style needed initially. Variants (primary, secondary, etc.) can be added later if required.
 
 ---
 
@@ -380,4 +402,5 @@ _No ADRs exist yet for this project._
 
 ## Changelog
 
+- **2025-11-03**: Decisions made on open questions - simplified to single variant, added m-radio-group, built-in label support
 - **2025-11-03**: Initial RFC created by Magnus
