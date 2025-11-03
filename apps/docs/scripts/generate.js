@@ -131,6 +131,121 @@ function generateIndexPage(components) {
 }
 
 /**
+ * Generate component-specific examples
+ * @param {Object} component
+ * @returns {string}
+ */
+function generateComponentExamples(component) {
+  // Special case for button component - show light DOM usage
+  if (component.tagName === 'm-button') {
+    return `
+      <section>
+        <h3>Usage</h3>
+        <p>The button component uses shadow DOM with slots - wrap a native <code>&lt;button&gt;</code> element:</p>
+        <pre><code>&lt;m-button variant="primary"&gt;
+  &lt;button type="button"&gt;Click me&lt;/button&gt;
+&lt;/m-button&gt;</code></pre>
+      </section>
+      
+      <section class="example">
+        <h3>Live Examples</h3>
+        
+        <h4>Variants</h4>
+        <div class="example-preview">
+          <m-button>
+            <button type="button">Default</button>
+          </m-button>
+          <m-button variant="primary">
+            <button type="button">Primary</button>
+          </m-button>
+          <m-button variant="secondary">
+            <button type="button">Secondary</button>
+          </m-button>
+          <m-button variant="outline">
+            <button type="button">Outline</button>
+          </m-button>
+        </div>
+        
+        <h4>Sizes</h4>
+        <div class="example-preview">
+          <m-button size="small" variant="primary">
+            <button type="button">Small</button>
+          </m-button>
+          <m-button size="medium" variant="primary">
+            <button type="button">Medium</button>
+          </m-button>
+          <m-button size="large" variant="primary">
+            <button type="button">Large</button>
+          </m-button>
+        </div>
+        
+        <h4>States</h4>
+        <div class="example-preview">
+          <m-button variant="primary">
+            <button type="button">Enabled</button>
+          </m-button>
+          <m-button variant="primary">
+            <button type="button" disabled>Disabled</button>
+          </m-button>
+        </div>
+        
+        <h4>Accessibility (ARIA)</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: flex-start;">
+          <div style="margin-bottom: 1rem;">
+            <span id="save-help" style="font-size: 0.875rem; color: #666; display: block; margin-bottom: 0.5rem;">
+              Save your changes to the document
+            </span>
+            <m-button variant="primary">
+              <button type="button" aria-describedby="save-help">Save Document</button>
+            </m-button>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <label for="delete-btn" style="font-size: 0.875rem; color: #666; display: block; margin-bottom: 0.5rem;">
+              Permanently delete this item
+            </label>
+            <m-button variant="secondary">
+              <button id="delete-btn" type="button" aria-label="Delete item permanently">Delete</button>
+            </m-button>
+          </div>
+          
+          <div>
+            <m-button variant="outline">
+              <button type="button" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); this.textContent = this.getAttribute('aria-pressed') === 'true' ? 'Starred ★' : 'Star ☆';">Star ☆</button>
+            </m-button>
+          </div>
+        </div>
+        
+        <h4>Form Integration</h4>
+        <div class="example-preview">
+          <form onsubmit="alert('Form submitted!'); return false;" style="display: flex; gap: 0.5rem;">
+            <m-button variant="outline">
+              <button type="reset">Reset</button>
+            </m-button>
+            <m-button variant="primary">
+              <button type="submit">Submit Form</button>
+            </m-button>
+          </form>
+        </div>
+      </section>`;
+  }
+  
+  // Default usage example for other components
+  return `
+    <section>
+      <h3>Usage</h3>
+      <pre><code>&lt;${component.tagName}&gt;Content&lt;/${component.tagName}&gt;</code></pre>
+    </section>
+    
+    <section class="example">
+      <h3>Live Example</h3>
+      <div class="example-preview">
+        <${component.tagName}>Example</${component.tagName}>
+      </div>
+    </section>`;
+}
+
+/**
  * Generate component detail page
  * @param {Object} component
  * @returns {string}
@@ -138,11 +253,12 @@ function generateIndexPage(components) {
 function generateComponentPage(component) {
   const attributes = component.attributes.length > 0 ? `
     <section>
-      <h3>Attributes</h3>
+      <h3>Properties</h3>
       <table class="api-table">
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Property</th>
+            <th>Attribute</th>
             <th>Type</th>
             <th>Description</th>
           </tr>
@@ -150,6 +266,7 @@ function generateComponentPage(component) {
         <tbody>
           ${component.attributes.map(attr => `
             <tr>
+              <td><code>${attr.fieldName || attr.name}</code></td>
               <td><code>${attr.name}</code></td>
               <td><code>${attr.type?.text || 'unknown'}</code></td>
               <td>${attr.description || ''}</td>
@@ -182,6 +299,10 @@ function generateComponentPage(component) {
     </section>
   ` : '';
   
+  const componentImportName = component.tagName.split('-').map((part, i) => 
+    i === 0 ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1)
+  ).join('');
+  
   const content = `
     <nav class="breadcrumb">
       <a href="/">Home</a> / <span>${component.tagName}</span>
@@ -193,21 +314,11 @@ function generateComponentPage(component) {
       
       <section>
         <h3>Installation</h3>
-        <pre><code>import { ${component.name}, register } from '@frdh/m-components/button';
+        <pre><code>import { ${component.name}, register } from '@frdh/m-components/${component.tagName.replace('m-', '')}';
 register();</code></pre>
       </section>
       
-      <section>
-        <h3>Usage</h3>
-        <pre><code>&lt;${component.tagName}&gt;Click me&lt;/${component.tagName}&gt;</code></pre>
-      </section>
-      
-      <section class="example">
-        <h3>Live Example</h3>
-        <div class="example-preview">
-          <${component.tagName}>Default</${component.tagName}>
-        </div>
-      </section>
+      ${generateComponentExamples(component)}
       
       ${attributes}
       ${slots}
@@ -438,6 +549,18 @@ pre code {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   overflow: hidden;
+  margin-top: var(--spacing-lg);
+}
+
+.example h4 {
+  font-size: 1rem;
+  margin: var(--spacing-md) 0 var(--spacing-sm);
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.example h4:first-of-type {
+  margin-top: 0;
 }
 
 .example-preview {
@@ -446,6 +569,11 @@ pre code {
   display: flex;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.example-preview + h4 {
+  margin-top: var(--spacing-lg);
 }
 
 /* Footer */

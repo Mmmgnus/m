@@ -1,10 +1,16 @@
 import { LitElement, html, css } from 'lit';
 
 /**
- * A simple button component for M Design System
+ * A button component that wraps a native button element.
+ * Uses shadow DOM with slots for style isolation while preserving perfect accessibility.
  *
  * @element m-button
- * @slot - Button content
+ * @slot - Native <button> element
+ *
+ * @example
+ * <m-button variant="primary">
+ *   <button type="submit">Submit</button>
+ * </m-button>
  */
 export class MButton extends LitElement {
   static defaultTagName = 'm-button';
@@ -14,39 +20,110 @@ export class MButton extends LitElement {
       display: inline-block;
     }
 
-    button {
-      padding: 8px 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background: #f5f5f5;
+    :host([hidden]) {
+      display: none;
+    }
+
+    /* Default variant styles */
+    ::slotted(button) {
+      padding: var(--m-button-padding, 8px 16px);
+      border: 1px solid var(--m-button-border-color, #ccc);
+      border-radius: var(--m-button-border-radius, 4px);
+      background: var(--m-button-background, #f5f5f5);
+      color: var(--m-button-color, inherit);
       cursor: pointer;
-      font: inherit;
+      font-family: var(--m-font-family, inherit);
+      font-size: var(--m-font-size-base, 1rem);
+      line-height: 1.5;
+      transition: background 0.15s ease, border-color 0.15s ease;
+      box-sizing: border-box;
     }
 
-    button:hover {
-      background: #e0e0e0;
+    ::slotted(button:hover) {
+      background: var(--m-button-background-hover, #e0e0e0);
     }
 
-    button:disabled {
+    ::slotted(button:focus-visible) {
+      outline: 2px solid var(--m-color-primary, #0066cc);
+      outline-offset: 2px;
+    }
+
+    ::slotted(button:disabled) {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    /* Variant: primary */
+    :host([variant="primary"]) ::slotted(button) {
+      background: var(--m-color-primary, #0066cc);
+      color: var(--m-color-primary-text, white);
+      border-color: var(--m-color-primary, #0066cc);
+    }
+
+    :host([variant="primary"]) ::slotted(button:hover) {
+      background: var(--m-color-primary-hover, #0052a3);
+      border-color: var(--m-color-primary-hover, #0052a3);
+    }
+
+    /* Variant: secondary */
+    :host([variant="secondary"]) ::slotted(button) {
+      background: var(--m-color-secondary, #6c757d);
+      color: var(--m-color-secondary-text, white);
+      border-color: var(--m-color-secondary, #6c757d);
+    }
+
+    :host([variant="secondary"]) ::slotted(button:hover) {
+      background: var(--m-color-secondary-hover, #5a6268);
+      border-color: var(--m-color-secondary-hover, #5a6268);
+    }
+
+    /* Variant: outline */
+    :host([variant="outline"]) ::slotted(button) {
+      background: transparent;
+      color: var(--m-color-primary, #0066cc);
+      border-color: var(--m-color-primary, #0066cc);
+    }
+
+    :host([variant="outline"]) ::slotted(button:hover) {
+      background: var(--m-color-primary, #0066cc);
+      color: var(--m-color-primary-text, white);
+    }
+
+    /* Size: small */
+    :host([size="small"]) ::slotted(button) {
+      padding: var(--m-button-padding-small, 4px 12px);
+      font-size: var(--m-font-size-small, 0.875rem);
+    }
+
+    /* Size: large */
+    :host([size="large"]) ::slotted(button) {
+      padding: var(--m-button-padding-large, 12px 24px);
+      font-size: var(--m-font-size-large, 1.125rem);
     }
   `;
 
   static properties = {
     /**
-     * Whether the button is disabled
-     * @type {boolean}
+     * Visual variant of the button
+     * @type {string}
      */
-    disabled: { type: Boolean, reflect: true }
+    variant: { type: String, reflect: true },
+    
+    /**
+     * Size variant of the button
+     * @type {string}
+     */
+    size: { type: String, reflect: true },
   };
 
+  constructor() {
+    super();
+    this.variant = 'default';
+    this.size = 'medium';
+  }
+
   render() {
-    return html`
-      <button ?disabled=${this.disabled}>
-        <slot></slot>
-      </button>
-    `;
+    return html`<slot></slot>`;
   }
 }
 

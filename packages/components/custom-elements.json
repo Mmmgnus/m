@@ -23,11 +23,11 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A simple button component for M Design System",
+          "description": "A button component that wraps a native button element.\nUses shadow DOM with slots for style isolation while preserving perfect accessibility.",
           "name": "MButton",
           "slots": [
             {
-              "description": "Button content",
+              "description": "Native <button> element",
               "name": ""
             }
           ],
@@ -43,24 +43,47 @@
             },
             {
               "kind": "field",
-              "name": "disabled",
+              "name": "variant",
               "privacy": "public",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "description": "Whether the button is disabled",
-              "attribute": "disabled",
+              "description": "Visual variant of the button",
+              "default": "'default'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Size variant of the button",
+              "default": "'medium'",
+              "attribute": "size",
               "reflects": true
             }
           ],
           "attributes": [
             {
-              "name": "disabled",
+              "name": "variant",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "description": "Whether the button is disabled",
-              "fieldName": "disabled"
+              "description": "Visual variant of the button",
+              "default": "'default'",
+              "fieldName": "variant"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "description": "Size variant of the button",
+              "default": "'medium'",
+              "fieldName": "size"
             }
           ],
           "superclass": {

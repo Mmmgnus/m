@@ -316,224 +316,100 @@ render() {
 }
 ```
 
-## Form Components: Light DOM Pattern
+## Form Components: Shadow DOM + Slot Pattern
 
-### Why Light DOM for Form Components?
+### Why Shadow DOM + Slot for Form Components?
 
-Form components (buttons, inputs, checkboxes, etc.) use a **light DOM pattern** instead of shadow DOM to ensure:
-1. ✅ Perfect label/input connections via `for` attribute
-2. ✅ All ARIA attributes work without limitations
-3. ✅ No cross-boundary ID reference issues
-4. ✅ Native form behavior without compromises
+Form components (buttons, inputs, checkboxes, etc.) use a **shadow DOM with slot pattern** to ensure:
+1. ✅ Style isolation - no CSS conflicts in microfrontends
+2. ✅ Perfect accessibility - native elements stay in light DOM
+3. ✅ All ARIA attributes work - no shadow boundary issues
+4. ✅ Native form behavior - buttons/inputs participate in forms normally
+5. ✅ Themeable via CSS custom properties - consistent styling
 
 ### Form Component Template
 
 ```javascript
-import { LitElement, html } from 'lit';
+import { LitElement, html, css } from 'lit';
 
 /**
- * A form input component that wraps a native input element.
- * Uses light DOM for perfect accessibility and label connections.
+ * A form button component that wraps a native button element.
+ * Uses shadow DOM with slots for style isolation while preserving accessibility.
  *
- * @element m-input
- * @slot - Native <input> element
+ * @element m-button
+ * @slot - Native <button> element
  *
  * @example
- * <m-input label="Email">
- *   <input type="email" name="email" required>
- * </m-input>
+ * <m-button variant="primary">
+ *   <button type="submit">Submit</button>
+ * </m-button>
  */
-export class MInput extends LitElement {
-  static defaultTagName = 'm-input';
+export class MButton extends LitElement {
+  static defaultTagName = 'm-button';
+
+  static styles = css`
+    :host {
+      display: inline-block;
+    }
+
+    :host([hidden]) {
+      display: none;
+    }
+
+    /* Style slotted button via CSS custom properties */
+    ::slotted(button) {
+      padding: var(--m-button-padding, 8px 16px);
+      border: 1px solid var(--m-button-border-color, #ccc);
+      border-radius: var(--m-button-border-radius, 4px);
+      background: var(--m-button-background, #f5f5f5);
+      color: var(--m-button-color, inherit);
+      cursor: pointer;
+      font-family: var(--m-font-family, inherit);
+      font-size: var(--m-font-size-base, 1rem);
+      transition: background 0.15s ease;
+    }
+
+    ::slotted(button:hover) {
+      background: var(--m-button-background-hover, #e0e0e0);
+    }
+
+    ::slotted(button:focus-visible) {
+      outline: 2px solid var(--m-color-primary, #0066cc);
+      outline-offset: 2px;
+    }
+
+    ::slotted(button:disabled) {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Variant styles using host attributes */
+    :host([variant="primary"]) ::slotted(button) {
+      background: var(--m-color-primary, #0066cc);
+      color: var(--m-color-primary-text, white);
+      border-color: var(--m-color-primary, #0066cc);
+    }
+
+    :host([variant="primary"]) ::slotted(button:hover) {
+      background: var(--m-color-primary-hover, #0052a3);
+    }
+  `;
 
   static properties = {
     /**
-     * Label text for the input
+     * Visual variant of the button
      * @type {string}
      */
-    label: { type: String },
-    
-    /**
-     * Error message to display
-     * @type {string}
-     */
-    error: { type: String },
-    
-    /**
-     * Help text for the input
-     * @type {string}
-     */
-    help: { type: String },
+    variant: { type: String, reflect: true },
   };
 
   constructor() {
     super();
-    this.label = '';
-    this.error = '';
-    this.help = '';
-  }
-
-  /**
-   * Render in light DOM (no shadow DOM).
-   * This ensures labels can reference inputs via 'for' attribute.
-   * @returns {this}
-   */
-  createRenderRoot() {
-    return this;
-  }
-
-  /**
-   * After first render, ensure input has ID and connect ARIA attributes
-   */
-  firstUpdated() {
-    this._ensureInputId();
-    this._connectAria();
-  }
-
-  /**
-   * When properties update, reconnect ARIA attributes
-   */
-  updated(changedProperties) {
-    super.updated(changedProperties);
-    if (changedProperties.has('error') || changedProperties.has('help')) {
-      this._connectAria();
-    }
-    if (changedProperties.has('label')) {
-      this._connectLabel();
-    }
-  }
-
-  /**
-   * Ensures the slotted input has a unique ID
-   * @private
-   */
-  _ensureInputId() {
-    const input = this.querySelector('input');
-    if (!input) {
-      console.warn('m-input: No <input> element found.');
-      return;
-    }
-    
-    if (!input.id) {
-      input.id = `input-${Math.random().toString(36).substr(2, 9)}`;
-    }
-  }
-
-  /**
-   * Connects label to input via 'for' attribute
-   * @private
-   */
-  _connectLabel() {
-    const input = this.querySelector('input');
-    const label = this.querySelector('.m-input__label');
-    
-    if (label && input) {
-      label.setAttribute('for', input.id);
-    }
-  }
-
-  /**
-   * Connects ARIA attributes to input
-   * @private
-   */
-  _connectAria() {
-    const input = this.querySelector('input');
-    if (!input) return;
-    
-    const describedBy = [];
-    
-    if (this.error) {
-      describedBy.push(`${input.id}-error`);
-    }
-    if (this.help) {
-      describedBy.push(`${input.id}-help`);
-    }
-    
-    if (describedBy.length) {
-      input.setAttribute('aria-describedby', describedBy.join(' '));
-    } else {
-      input.removeAttribute('aria-describedby');
-    }
+    this.variant = 'default';
   }
 
   render() {
-    const inputId = this._getInputId();
-    
-    return html`
-      <style>
-        /* Component-scoped styles */
-        .m-input {
-          display: block;
-        }
-        
-        .m-input__label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-family: var(--m-font-family, system-ui, sans-serif);
-          font-size: var(--m-font-size-base, 1rem);
-          font-weight: 500;
-          color: var(--m-color-text, #333);
-        }
-        
-        .m-input__wrapper {
-          position: relative;
-        }
-        
-        .m-input input {
-          width: 100%;
-          padding: var(--m-spacing-sm, 0.5rem);
-          border: 1px solid var(--m-color-border, #ccc);
-          border-radius: var(--m-border-radius, 0.25rem);
-          font-family: var(--m-font-family, system-ui, sans-serif);
-          font-size: var(--m-font-size-base, 1rem);
-        }
-        
-        .m-input input:focus {
-          outline: 2px solid var(--m-color-primary, #0066cc);
-          outline-offset: 2px;
-        }
-        
-        .m-input--error input {
-          border-color: var(--m-color-error, #dc3545);
-        }
-        
-        .m-input__error {
-          margin-top: 0.25rem;
-          font-size: 0.875rem;
-          color: var(--m-color-error, #dc3545);
-        }
-        
-        .m-input__help {
-          margin-top: 0.25rem;
-          font-size: 0.875rem;
-          color: var(--m-color-text-secondary, #666);
-        }
-      </style>
-      
-      <div class="m-input ${this.error ? 'm-input--error' : ''}">
-        ${this.label ? html`
-          <label class="m-input__label">${this.label}</label>
-        ` : ''}
-        <div class="m-input__wrapper">
-          <slot></slot>
-        </div>
-        ${this.error ? html`
-          <div class="m-input__error" id="${inputId}-error">${this.error}</div>
-        ` : ''}
-        ${this.help ? html`
-          <div class="m-input__help" id="${inputId}-help">${this.help}</div>
-        ` : ''}
-      </div>
-    `;
-  }
-  
-  /**
-   * Gets the input ID (used during render)
-   * @private
-   */
-  _getInputId() {
-    const input = this.querySelector('input');
-    return input?.id || '';
+    return html`<slot></slot>`;
   }
 }
 
@@ -547,111 +423,128 @@ export function register(tagName = MInput.defaultTagName) {
 
 ### Key Differences for Form Components
 
-1. **No Shadow DOM**:
+1. **Shadow DOM with Slot**:
    ```javascript
-   createRenderRoot() {
-     return this; // Render in light DOM
-   }
-   ```
-
-2. **Inline Styles**:
-   ```javascript
+   // Shadow DOM enabled (default Lit behavior)
+   // Native element slotted in light DOM
    render() {
-     return html`
-       <style>
-         /* Scoped CSS using BEM naming */
-         .m-component { /* styles */ }
-       </style>
-       <!-- content -->
-     `;
+     return html`<slot></slot>`;
    }
    ```
 
-3. **Label Connection**:
+2. **Style via ::slotted() and CSS Variables**:
    ```javascript
-   _connectLabel() {
-     const input = this.querySelector('input');
-     const label = this.querySelector('.m-input__label');
+   static styles = css`
+     ::slotted(button) {
+       padding: var(--m-button-padding, 8px 16px);
+       background: var(--m-button-background, #f5f5f5);
+     }
      
-     if (label && input) {
-       label.setAttribute('for', input.id);
+     ::slotted(button:hover) {
+       background: var(--m-button-background-hover, #e0e0e0);
      }
-   }
+   `;
    ```
 
-4. **ARIA Connection**:
+3. **Variants via Host Attributes**:
    ```javascript
-   _connectAria() {
-     const input = this.querySelector('input');
-     if (this.error) {
-       input.setAttribute('aria-describedby', `${input.id}-error`);
+   static properties = {
+     variant: { type: String, reflect: true },
+   };
+   
+   static styles = css`
+     :host([variant="primary"]) ::slotted(button) {
+       background: var(--m-color-primary, #0066cc);
      }
-   }
+   `;
+   ```
+
+4. **Native Element Stays in Light DOM**:
+   ```html
+   <!-- Button is in light DOM, wrapper has shadow DOM -->
+   <m-button variant="primary">
+     <button type="submit">Submit</button>  <!-- Light DOM -->
+   </m-button>
    ```
 
 ### Form Component Usage
 
 ```html
-<!-- Basic usage -->
-<m-input label="Email">
-  <input type="email" name="email" required>
-</m-input>
+<!-- Basic button -->
+<m-button>
+  <button type="button">Click me</button>
+</m-button>
 
-<!-- With error message -->
-<m-input label="Email" error="Please enter a valid email">
-  <input type="email" name="email" required aria-invalid="true">
-</m-input>
+<!-- With variant -->
+<m-button variant="primary">
+  <button type="submit">Submit</button>
+</m-button>
 
-<!-- With help text -->
-<m-input label="Password" help="Must be at least 8 characters">
-  <input type="password" name="password" required>
-</m-input>
+<!-- With size -->
+<m-button size="large" variant="primary">
+  <button type="submit">Large Submit</button>
+</m-button>
 
-<!-- External label (still works!) -->
-<label for="custom-id">Custom Label</label>
-<m-input>
-  <input id="custom-id" type="text" name="field">
-</m-input>
+<!-- Disabled button -->
+<m-button variant="primary">
+  <button type="submit" disabled>Disabled</button>
+</m-button>
+
+<!-- With ARIA (still works!) -->
+<span id="help">This submits the form</span>
+<m-button variant="primary">
+  <button type="submit" aria-describedby="help">Submit</button>
+</m-button>
 ```
 
-### When to Use Light DOM vs Shadow DOM
+### When to Use Shadow + Slot vs Full Shadow DOM
 
-**Use Light DOM (no `createRenderRoot()` override) for:**
+**Use Shadow DOM + Slot for:**
 - ✅ Form components (button, input, checkbox, radio, select, textarea)
-- ✅ Components that need label connections
-- ✅ Components requiring external ARIA references
-- ✅ Components where accessibility is critical
+- ✅ Components needing style isolation in microfrontends
+- ✅ Components requiring full accessibility (ARIA, labels)
+- ✅ Native element wrappers that enhance styling
 
-**Use Shadow DOM (default Lit behavior) for:**
+**Use Full Shadow DOM (internal elements) for:**
 - ✅ Purely presentational components (card, badge, avatar)
 - ✅ Components with complex internal structure
-- ✅ Components where style encapsulation is essential
-- ✅ Non-interactive UI elements
+- ✅ Non-form interactive elements (tabs, accordion, dialog)
+- ✅ Components where style encapsulation is critical
 
-### BEM Naming Convention for Light DOM
+### CSS Custom Properties Convention
 
-When using light DOM, use BEM to scope your styles:
+When using shadow DOM + slot, expose theming through CSS custom properties:
 
 ```css
-/* Block */
-.m-component { }
+/* Component definition */
+::slotted(button) {
+  /* Use CSS vars with fallbacks */
+  padding: var(--m-button-padding, 8px 16px);
+  background: var(--m-button-background, #f5f5f5);
+  border-radius: var(--m-button-border-radius, 4px);
+}
+```
 
-/* Element */
-.m-component__element { }
+Naming convention:
+```css
+/* Component-specific */
+--m-component-property: value;
 
-/* Modifier */
-.m-component--modifier { }
-.m-component__element--modifier { }
+/* Global design tokens */
+--m-color-primary: value;
+--m-spacing-md: value;
+--m-font-family: value;
 ```
 
 Example:
 ```css
-.m-input { }                    /* Block */
-.m-input__label { }             /* Element */
-.m-input__wrapper { }           /* Element */
-.m-input__error { }             /* Element */
-.m-input--error { }             /* Modifier */
-.m-input--error input { }       /* Modifier affecting child */
+/* Button-specific */
+--m-button-padding: 8px 16px;
+--m-button-background: #f5f5f5;
+
+/* Using global tokens */
+--m-button-padding: var(--m-spacing-md);
+--m-button-background: var(--m-color-surface);
 ```
 
 ---
