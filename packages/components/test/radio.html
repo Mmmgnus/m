@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M Radio Component Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    
+    h1 {
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      margin-top: 40px;
+      color: #333;
+    }
+    
+    section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    
+    .test-group {
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+    }
+    
+    .test-group h3 {
+      margin-top: 0;
+      color: #0066cc;
+      font-size: 1.1em;
+    }
+    
+    form {
+      margin: 20px 0;
+    }
+    
+    .form-actions {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+    
+    button[type="submit"] {
+      padding: 10px 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    button[type="submit"]:hover {
+      background: #0052a3;
+    }
+    
+    #form-output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    
+    .custom-theme {
+      --m-color-primary: #c2185b;
+      --m-radio-size: 24px;
+      --m-radio-gap: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔘 M Radio Component Test</h1>
+  
+  <section>
+    <h2>Basic m-radio</h2>
+    
+    <div class="test-group">
+      <h3>Individual Radio Buttons with Labels</h3>
+      <m-radio label="Option 1">
+        <input type="radio" name="basic" value="1">
+      </m-radio>
+      <br><br>
+      <m-radio label="Option 2">
+        <input type="radio" name="basic" value="2" checked>
+      </m-radio>
+      <br><br>
+      <m-radio label="Option 3">
+        <input type="radio" name="basic" value="3">
+      </m-radio>
+    </div>
+    
+    <div class="test-group">
+      <h3>Slotted Label (Custom HTML)</h3>
+      <m-radio>
+        <input type="radio" name="slotted" value="a">
+        <span slot="label">Label with <strong>bold</strong> text</span>
+      </m-radio>
+      <br><br>
+      <m-radio>
+        <input type="radio" name="slotted" value="b" checked>
+        <span slot="label">Label with <em>italic</em> text</span>
+      </m-radio>
+    </div>
+    
+    <div class="test-group">
+      <h3>Without Labels (External Label)</h3>
+      <m-radio>
+        <input type="radio" id="ext1" name="external" value="a">
+      </m-radio>
+      <label for="ext1">External Label A</label>
+      <br><br>
+      <m-radio>
+        <input type="radio" id="ext2" name="external" value="b">
+      </m-radio>
+      <label for="ext2">External Label B</label>
+    </div>
+    
+    <div class="test-group">
+      <h3>Disabled State</h3>
+      <m-radio label="Enabled Option">
+        <input type="radio" name="disabled-test" value="enabled">
+      </m-radio>
+      <br><br>
+      <m-radio label="Disabled Option">
+        <input type="radio" name="disabled-test" value="disabled" disabled>
+      </m-radio>
+      <br><br>
+      <m-radio label="Disabled & Checked">
+        <input type="radio" name="disabled-test" value="disabled-checked" disabled checked>
+      </m-radio>
+    </div>
+  </section>
+  
+  <section>
+    <h2>m-radio-group Component</h2>
+    
+    <div class="test-group">
+      <h3>Vertical Layout (Default)</h3>
+      <m-radio-group name="vertical" label="Choose your favorite fruit">
+        <m-radio label="Apple">
+          <input type="radio" name="vertical" value="apple">
+        </m-radio>
+        <m-radio label="Banana">
+          <input type="radio" name="vertical" value="banana" checked>
+        </m-radio>
+        <m-radio label="Orange">
+          <input type="radio" name="vertical" value="orange">
+        </m-radio>
+        <m-radio label="Grapes">
+          <input type="radio" name="vertical" value="grapes">
+        </m-radio>
+      </m-radio-group>
+    </div>
+    
+    <div class="test-group">
+      <h3>Horizontal Layout</h3>
+      <m-radio-group name="horizontal" label="Select size" orientation="horizontal">
+        <m-radio label="Small">
+          <input type="radio" name="horizontal" value="s">
+        </m-radio>
+        <m-radio label="Medium">
+          <input type="radio" name="horizontal" value="m" checked>
+        </m-radio>
+        <m-radio label="Large">
+          <input type="radio" name="horizontal" value="l">
+        </m-radio>
+        <m-radio label="X-Large">
+          <input type="radio" name="horizontal" value="xl">
+        </m-radio>
+      </m-radio-group>
+    </div>
+    
+    <div class="test-group">
+      <h3>With ARIA Help Text</h3>
+      <span id="help-text" style="display: block; margin-bottom: 10px; color: #666; font-size: 0.9em;">
+        Choose your preferred notification method. Email is recommended for important updates.
+      </span>
+      <m-radio-group 
+        name="notifications" 
+        label="Notification Preference" 
+        aria-describedby="help-text">
+        <m-radio label="Email">
+          <input type="radio" name="notifications" value="email" checked>
+        </m-radio>
+        <m-radio label="SMS">
+          <input type="radio" name="notifications" value="sms">
+        </m-radio>
+        <m-radio label="Push Notification">
+          <input type="radio" name="notifications" value="push">
+        </m-radio>
+        <m-radio label="None">
+          <input type="radio" name="notifications" value="none">
+        </m-radio>
+      </m-radio-group>
+    </div>
+    
+    <div class="test-group">
+      <h3>Without Group Label</h3>
+      <m-radio-group name="no-label">
+        <m-radio label="Yes">
+          <input type="radio" name="no-label" value="yes">
+        </m-radio>
+        <m-radio label="No">
+          <input type="radio" name="no-label" value="no">
+        </m-radio>
+      </m-radio-group>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Form Integration</h2>
+    
+    <div class="test-group">
+      <h3>Complete Form Example</h3>
+      <form id="test-form">
+        <m-radio-group name="plan" label="Select your plan">
+          <m-radio label="Free - $0/month">
+            <input type="radio" name="plan" value="free" required>
+          </m-radio>
+          <m-radio label="Pro - $10/month">
+            <input type="radio" name="plan" value="pro">
+          </m-radio>
+          <m-radio label="Enterprise - $50/month">
+            <input type="radio" name="plan" value="enterprise">
+          </m-radio>
+        </m-radio-group>
+        
+        <br><br>
+        
+        <m-radio-group name="billing" label="Billing cycle" orientation="horizontal">
+          <m-radio label="Monthly">
+            <input type="radio" name="billing" value="monthly" required checked>
+          </m-radio>
+          <m-radio label="Yearly">
+            <input type="radio" name="billing" value="yearly">
+          </m-radio>
+        </m-radio-group>
+        
+        <div class="form-actions">
+          <button type="submit">Submit Form</button>
+          <div id="form-output"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Custom Theming</h2>
+    
+    <div class="test-group custom-theme">
+      <h3>Custom Theme (Pink Primary Color, Larger Size)</h3>
+      <m-radio-group name="themed" label="Themed radio buttons">
+        <m-radio label="Option A">
+          <input type="radio" name="themed" value="a" checked>
+        </m-radio>
+        <m-radio label="Option B">
+          <input type="radio" name="themed" value="b">
+        </m-radio>
+        <m-radio label="Option C">
+          <input type="radio" name="themed" value="c">
+        </m-radio>
+      </m-radio-group>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Accessibility Features</h2>
+    
+    <div class="test-group">
+      <h3>Keyboard Navigation Test</h3>
+      <p style="color: #666; font-size: 0.9em;">
+        <strong>Instructions:</strong> Tab to focus, use arrow keys to navigate, Space to select
+      </p>
+      <m-radio-group name="keyboard" label="Keyboard navigation test">
+        <m-radio label="First option">
+          <input type="radio" name="keyboard" value="1">
+        </m-radio>
+        <m-radio label="Second option">
+          <input type="radio" name="keyboard" value="2">
+        </m-radio>
+        <m-radio label="Third option">
+          <input type="radio" name="keyboard" value="3">
+        </m-radio>
+      </m-radio-group>
+    </div>
+  </section>
+
+  <script type="module">
+    // Import and register components
+    import { register as registerRadio } from '../src/radio/m-radio.js';
+    import { register as registerRadioGroup } from '../src/radio/m-radio-group.js';
+    
+    registerRadio();
+    registerRadioGroup();
+    
+    // Form submission handler
+    document.getElementById('test-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+      document.getElementById('form-output').textContent = 
+        'Form data: ' + JSON.stringify(data, null, 2);
+    });
+    
+    console.log('✅ Radio components registered and ready');
+  </script>
+</body>
+</html>

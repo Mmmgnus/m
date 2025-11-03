@@ -30,6 +30,22 @@
             "name": "MInput",
             "module": "./input/m-input.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "MRadio",
+          "declaration": {
+            "name": "MRadio",
+            "module": "./radio/m-radio.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MRadioGroup",
+          "declaration": {
+            "name": "MRadioGroup",
+            "module": "./radio/m-radio-group.js"
+          }
         }
       ]
     },
@@ -520,6 +536,286 @@
           "declaration": {
             "name": "MInput",
             "module": "src/input/m-input.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/radio/m-radio-group.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A radio group component that provides semantic grouping for radio buttons.\nRenders a fieldset with legend for proper accessibility.",
+          "name": "MRadioGroup",
+          "slots": [
+            {
+              "description": "One or more <m-radio> components",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "defaultTagName",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'m-radio-group'"
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Name attribute for all radio buttons in the group",
+              "default": "''",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Group label displayed as legend",
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Layout direction for radio buttons",
+              "default": "'vertical'",
+              "attribute": "orientation",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Name attribute for all radio buttons in the group",
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Group label displayed as legend",
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "string"
+              },
+              "description": "Layout direction for radio buttons",
+              "default": "'vertical'",
+              "fieldName": "orientation"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "m-radio-group",
+          "examples": [
+            {
+              "title": "Basic usage",
+              "description": "",
+              "code": "<m-radio-group name=\"choice\" label=\"Choose an option\">\n  <m-radio label=\"Option 1\">\n    <input type=\"radio\" name=\"choice\" value=\"1\">\n  </m-radio>\n  <m-radio label=\"Option 2\">\n    <input type=\"radio\" name=\"choice\" value=\"2\">\n  </m-radio>\n</m-radio-group>"
+            },
+            {
+              "title": "Horizontal layout",
+              "description": "",
+              "code": "<m-radio-group name=\"size\" label=\"Select size\" orientation=\"horizontal\">\n  <m-radio label=\"Small\">\n    <input type=\"radio\" name=\"size\" value=\"s\">\n  </m-radio>\n  <m-radio label=\"Medium\">\n    <input type=\"radio\" name=\"size\" value=\"m\">\n  </m-radio>\n  <m-radio label=\"Large\">\n    <input type=\"radio\" name=\"size\" value=\"l\">\n  </m-radio>\n</m-radio-group>"
+            }
+          ],
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "register",
+          "parameters": [
+            {
+              "name": "tagName",
+              "default": "MRadioGroup.defaultTagName",
+              "description": "The tag name to register the component as",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Register the MRadioGroup component",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MRadioGroup",
+          "declaration": {
+            "name": "MRadioGroup",
+            "module": "src/radio/m-radio-group.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "register",
+          "declaration": {
+            "name": "register",
+            "module": "src/radio/m-radio-group.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tagName",
+          "declaration": {
+            "name": "MRadioGroup",
+            "module": "src/radio/m-radio-group.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/radio/m-radio.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A radio button component that wraps a native radio input element.\nUses shadow DOM with slots for style isolation while preserving perfect accessibility.\nWraps content in a <label> element for implicit label association.",
+          "name": "MRadio",
+          "slots": [
+            {
+              "description": "Native <input type=\"radio\"> element",
+              "name": ""
+            },
+            {
+              "description": "Custom label content (alternative to label prop)",
+              "name": "label"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "defaultTagName",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'m-radio'"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Label text displayed next to the radio button",
+              "default": "''",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Label text displayed next to the radio button",
+              "default": "''",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "m-radio",
+          "examples": [
+            {
+              "title": "Basic usage with label prop",
+              "description": "",
+              "code": "<m-radio label=\"Option 1\">\n  <input type=\"radio\" name=\"choice\" value=\"1\">\n</m-radio>"
+            },
+            {
+              "title": "Custom slotted label",
+              "description": "",
+              "code": "<m-radio>\n  <input type=\"radio\" name=\"choice\" value=\"2\">\n  <span slot=\"label\">Custom <strong>label</strong></span>\n</m-radio>"
+            },
+            {
+              "title": "Disabled state",
+              "description": "",
+              "code": "<m-radio label=\"Option 3\">\n  <input type=\"radio\" name=\"choice\" value=\"3\" disabled>\n</m-radio>"
+            }
+          ],
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "register",
+          "parameters": [
+            {
+              "name": "tagName",
+              "default": "MRadio.defaultTagName",
+              "description": "The tag name to register the component as",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Register the MRadio component",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MRadio",
+          "declaration": {
+            "name": "MRadio",
+            "module": "src/radio/m-radio.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "register",
+          "declaration": {
+            "name": "register",
+            "module": "src/radio/m-radio.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tagName",
+          "declaration": {
+            "name": "MRadio",
+            "module": "src/radio/m-radio.js"
           }
         }
       ]
