@@ -64,6 +64,7 @@ function layout(title, content, includeComponents = false) {
         "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3.0.0/lit-html.js",
         "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3.0.0/",
         "lit-element/lit-element.js": "https://cdn.jsdelivr.net/npm/lit-element@4.0.0/lit-element.js",
+        "@lwc/aria-reflection": "https://cdn.jsdelivr.net/npm/@lwc/aria-reflection@8.23.0/+esm",
         "@frdh/m-components/": "/components-src/"
       }
     }
@@ -136,7 +137,7 @@ function generateIndexPage(components) {
  * @returns {string}
  */
 function generateComponentExamples(component) {
-  // Special case for button component - show light DOM usage
+  // Special case for button component
   if (component.tagName === 'm-button') {
     return `
       <section>
@@ -225,6 +226,104 @@ function generateComponentExamples(component) {
             <m-button variant="primary">
               <button type="submit">Submit Form</button>
             </m-button>
+          </form>
+        </div>
+      </section>`;
+  }
+  
+  // Special case for input component
+  if (component.tagName === 'm-input') {
+    return `
+      <section>
+        <h3>Usage</h3>
+        <p>The input component uses shadow DOM with slots - wrap a native <code>&lt;input&gt;</code> element:</p>
+        <pre><code>&lt;m-input label="Email" required&gt;
+  &lt;input type="email" name="email"&gt;
+&lt;/m-input&gt;</code></pre>
+      </section>
+      
+      <section class="example">
+        <h3>Live Examples</h3>
+        
+        <h4>Basic Input</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px;">
+          <m-input label="Email" required>
+            <input type="email" name="email" placeholder="you@example.com">
+          </m-input>
+        </div>
+        
+        <h4>With Help Text</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px;">
+          <m-input label="Password" help="Must be at least 8 characters">
+            <input type="password" name="password">
+          </m-input>
+        </div>
+        
+        <h4>With Error</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px;">
+          <m-input label="Username" error="This username is already taken">
+            <input type="text" name="username" value="john">
+          </m-input>
+        </div>
+        
+        <h4>Sizes</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px; gap: 1rem;">
+          <m-input label="Small" size="small">
+            <input type="text" placeholder="Small input">
+          </m-input>
+          <m-input label="Medium (default)" size="medium">
+            <input type="text" placeholder="Medium input">
+          </m-input>
+          <m-input label="Large" size="large">
+            <input type="text" placeholder="Large input">
+          </m-input>
+        </div>
+        
+        <h4>Disabled</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px;">
+          <m-input label="Disabled Field">
+            <input type="text" value="Cannot edit" disabled>
+          </m-input>
+        </div>
+        
+        <h4>Accessibility (ARIA)</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px; gap: 1rem;">
+          <div>
+            <span id="email-desc" style="font-size: 0.875rem; color: #666; display: block; margin-bottom: 0.5rem;">
+              Your primary contact email for notifications
+            </span>
+            <m-input label="Email">
+              <input type="email" name="email" aria-describedby="email-desc">
+            </m-input>
+          </div>
+          
+          <m-input label="Name">
+            <input type="text" name="name" aria-label="Full legal name as it appears on your ID">
+          </m-input>
+          
+          <m-input>
+            <label slot="label" for="custom-input">Custom Label with <strong>HTML</strong></label>
+            <input id="custom-input" type="text" name="custom">
+          </m-input>
+        </div>
+        
+        <h4>Form Integration</h4>
+        <div class="example-preview" style="flex-direction: column; align-items: stretch; max-width: 400px;">
+          <form onsubmit="alert('Form submitted!'); return false;" style="display: flex; flex-direction: column; gap: 1rem;">
+            <m-input label="Full Name" required>
+              <input type="text" name="name" required>
+            </m-input>
+            <m-input label="Email Address" required help="We'll never share your email">
+              <input type="email" name="email" required>
+            </m-input>
+            <div style="display: flex; gap: 0.5rem;">
+              <m-button variant="outline">
+                <button type="reset">Reset</button>
+              </m-button>
+              <m-button variant="primary">
+                <button type="submit">Submit</button>
+              </m-button>
+            </div>
           </form>
         </div>
       </section>`;

@@ -14,6 +14,14 @@
             "name": "MButton",
             "module": "./button/m-button.js"
           }
+        },
+        {
+          "kind": "js",
+          "name": "MInput",
+          "declaration": {
+            "name": "MInput",
+            "module": "./input/m-input.js"
+          }
         }
       ]
     },
@@ -138,6 +146,222 @@
           "declaration": {
             "name": "MButton",
             "module": "src/button/m-button.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/input/m-input.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "An input field component that wraps a native input element.\nUses shadow DOM with slots for style isolation while preserving perfect accessibility.",
+          "name": "MInput",
+          "slots": [
+            {
+              "description": "Optional custom label element (for full control)",
+              "name": "label"
+            },
+            {
+              "description": "Native <input> element (required)",
+              "name": ""
+            },
+            {
+              "description": "Optional custom error message (rendered in light DOM for ARIA)",
+              "name": "error"
+            },
+            {
+              "description": "Optional custom help text (rendered in light DOM for ARIA)",
+              "name": "help"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "defaultTagName",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "'m-input'"
+            },
+            {
+              "kind": "method",
+              "name": "_setupErrorHelp",
+              "description": "Setup error/help elements in light DOM for ARIA accessibility",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_connectAria",
+              "description": "Connect ARIA attributes to the slotted input\nNow uses standard aria-describedby since error/help are in light DOM",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getInputId",
+              "description": "Get the input ID (used during render)",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Label text for the input",
+              "default": "''",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "error",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Error message to display",
+              "default": "''",
+              "attribute": "error",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "help",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Help text for the input",
+              "default": "''",
+              "attribute": "help"
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the input is required",
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "Size variant of the input",
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Label text for the input",
+              "default": "''",
+              "fieldName": "label"
+            },
+            {
+              "name": "error",
+              "type": {
+                "text": "string"
+              },
+              "description": "Error message to display",
+              "default": "''",
+              "fieldName": "error"
+            },
+            {
+              "name": "help",
+              "type": {
+                "text": "string"
+              },
+              "description": "Help text for the input",
+              "default": "''",
+              "fieldName": "help"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Whether the input is required",
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "string"
+              },
+              "description": "Size variant of the input",
+              "default": "'medium'",
+              "fieldName": "size"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "m-input",
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "register",
+          "parameters": [
+            {
+              "name": "tagName",
+              "default": "MInput.defaultTagName",
+              "description": "The tag name to register the component as",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Register the MInput component",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "MInput",
+          "declaration": {
+            "name": "MInput",
+            "module": "src/input/m-input.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "register",
+          "declaration": {
+            "name": "register",
+            "module": "src/input/m-input.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tagName",
+          "declaration": {
+            "name": "MInput",
+            "module": "src/input/m-input.js"
           }
         }
       ]
