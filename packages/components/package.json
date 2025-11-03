@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./button": "./src/button/m-button.js",
+    "./checkbox": "./src/checkbox/m-checkbox.js",
     "./input": "./src/input/m-input.js",
     "./radio": "./src/radio/m-radio.js",
     "./radio-group": "./src/radio/m-radio-group.js",

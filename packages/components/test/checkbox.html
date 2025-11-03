@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M Checkbox Component Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    
+    h1 {
+      border-bottom: 2px solid #0066cc;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      margin-top: 40px;
+      color: #333;
+    }
+    
+    section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    
+    .test-group {
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+    }
+    
+    .test-group h3 {
+      margin-top: 0;
+      color: #0066cc;
+      font-size: 1.1em;
+    }
+    
+    form {
+      margin: 20px 0;
+    }
+    
+    .form-actions {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+    
+    button[type="submit"], button[type="button"] {
+      padding: 10px 20px;
+      background: #0066cc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    
+    button[type="submit"]:hover, button[type="button"]:hover {
+      background: #0052a3;
+    }
+    
+    #form-output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    
+    .custom-theme {
+      --m-color-primary: #10b981;
+      --m-checkbox-size: 24px;
+      --m-checkbox-gap: 12px;
+      --m-checkbox-border-radius: 6px;
+    }
+
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>☑️ M Checkbox Component Test</h1>
+  
+  <section>
+    <h2>Basic m-checkbox</h2>
+    
+    <div class="test-group">
+      <h3>Individual Checkboxes with Labels</h3>
+      <div class="checkbox-list">
+        <m-checkbox label="I agree to the terms and conditions">
+          <input type="checkbox" name="terms" value="agreed">
+        </m-checkbox>
+        
+        <m-checkbox label="Subscribe to newsletter">
+          <input type="checkbox" name="newsletter" value="yes" checked>
+        </m-checkbox>
+        
+        <m-checkbox label="Enable notifications">
+          <input type="checkbox" name="notifications" value="enabled">
+        </m-checkbox>
+      </div>
+    </div>
+    
+    <div class="test-group">
+      <h3>External Labels</h3>
+      <m-checkbox>
+        <input type="checkbox" id="ext1" name="external1" value="a">
+      </m-checkbox>
+      <label for="ext1">External Label A</label>
+      <br><br>
+      <label for="ext2">Custom <strong>HTML</strong> in external label</label>
+      <m-checkbox>
+        <input type="checkbox" id="ext2" name="external2" value="b" checked>
+      </m-checkbox>
+    </div>
+    
+    <div class="test-group">
+      <h3>Disabled State</h3>
+      <div class="checkbox-list">
+        <m-checkbox label="Enabled Checkbox">
+          <input type="checkbox" name="disabled-test1" value="enabled">
+        </m-checkbox>
+        
+        <m-checkbox label="Disabled Checkbox">
+          <input type="checkbox" name="disabled-test2" value="disabled" disabled>
+        </m-checkbox>
+        
+        <m-checkbox label="Disabled & Checked">
+          <input type="checkbox" name="disabled-test3" value="disabled-checked" disabled checked>
+        </m-checkbox>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Indeterminate State</h2>
+    
+    <div class="test-group">
+      <h3>Select All Pattern</h3>
+      <div class="checkbox-list">
+        <m-checkbox label="Select all">
+          <input type="checkbox" id="select-all">
+        </m-checkbox>
+        
+        <div style="margin-left: 30px;">
+          <m-checkbox label="Item 1">
+            <input type="checkbox" class="item-checkbox" value="1">
+          </m-checkbox>
+          
+          <m-checkbox label="Item 2">
+            <input type="checkbox" class="item-checkbox" value="2">
+          </m-checkbox>
+          
+          <m-checkbox label="Item 3">
+            <input type="checkbox" class="item-checkbox" value="3">
+          </m-checkbox>
+        </div>
+      </div>
+      <p style="color: #666; font-size: 0.9em; margin-top: 10px;">
+        Try checking individual items or "Select all" to see the indeterminate state.
+      </p>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Form Integration</h2>
+    
+    <div class="test-group">
+      <h3>Complete Form Example</h3>
+      <form id="test-form">
+        <fieldset style="border: 1px solid #ddd; padding: 15px; border-radius: 4px;">
+          <legend style="font-weight: bold;">Account Preferences</legend>
+          
+          <div class="checkbox-list">
+            <m-checkbox label="Remember me">
+              <input type="checkbox" name="remember" value="yes">
+            </m-checkbox>
+            
+            <m-checkbox label="Enable two-factor authentication">
+              <input type="checkbox" name="2fa" value="enabled">
+            </m-checkbox>
+            
+            <m-checkbox label="I accept the terms and conditions">
+              <input type="checkbox" name="terms" value="accepted" required>
+            </m-checkbox>
+          </div>
+        </fieldset>
+        
+        <br>
+        
+        <fieldset style="border: 1px solid #ddd; padding: 15px; border-radius: 4px;">
+          <legend style="font-weight: bold;">Email Preferences</legend>
+          
+          <div class="checkbox-list">
+            <m-checkbox label="Product updates">
+              <input type="checkbox" name="email-products" value="yes" checked>
+            </m-checkbox>
+            
+            <m-checkbox label="Security alerts">
+              <input type="checkbox" name="email-security" value="yes" checked>
+            </m-checkbox>
+            
+            <m-checkbox label="Marketing emails">
+              <input type="checkbox" name="email-marketing" value="yes">
+            </m-checkbox>
+          </div>
+        </fieldset>
+        
+        <div class="form-actions">
+          <button type="submit">Submit Form</button>
+          <button type="button" id="reset-btn">Reset Form</button>
+          <div id="form-output"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Custom Theming</h2>
+    
+    <div class="test-group custom-theme">
+      <h3>Custom Theme (Green Primary Color, Larger Size, Rounded)</h3>
+      <div class="checkbox-list">
+        <m-checkbox label="Option A">
+          <input type="checkbox" name="themed1" value="a" checked>
+        </m-checkbox>
+        
+        <m-checkbox label="Option B">
+          <input type="checkbox" name="themed2" value="b">
+        </m-checkbox>
+        
+        <m-checkbox label="Option C">
+          <input type="checkbox" name="themed3" value="c">
+        </m-checkbox>
+      </div>
+    </div>
+  </section>
+  
+  <section>
+    <h2>Accessibility Features</h2>
+    
+    <div class="test-group">
+      <h3>Keyboard Navigation Test</h3>
+      <p style="color: #666; font-size: 0.9em;">
+        <strong>Instructions:</strong> Tab to focus, Space to toggle
+      </p>
+      <div class="checkbox-list">
+        <m-checkbox label="First checkbox">
+          <input type="checkbox" name="keyboard1" value="1">
+        </m-checkbox>
+        
+        <m-checkbox label="Second checkbox">
+          <input type="checkbox" name="keyboard2" value="2">
+        </m-checkbox>
+        
+        <m-checkbox label="Third checkbox">
+          <input type="checkbox" name="keyboard3" value="3">
+        </m-checkbox>
+      </div>
+    </div>
+    
+    <div class="test-group">
+      <h3>With ARIA Attributes</h3>
+      <span id="help-text" style="display: block; margin-bottom: 10px; color: #666; font-size: 0.9em;">
+        Please review and accept our privacy policy to continue.
+      </span>
+      <m-checkbox label="I have read and accept the privacy policy">
+        <input 
+          type="checkbox" 
+          name="privacy" 
+          value="accepted"
+          required
+          aria-describedby="help-text">
+      </m-checkbox>
+    </div>
+  </section>
+
+  <script type="module">
+    // Import and register component
+    import { register as registerCheckbox } from '../src/checkbox/m-checkbox.js';
+    
+    registerCheckbox();
+    
+    // Form submission handler
+    document.getElementById('test-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {};
+      
+      // Get all form data including unchecked checkboxes
+      for (const [key, value] of formData.entries()) {
+        if (data[key]) {
+          if (Array.isArray(data[key])) {
+            data[key].push(value);
+          } else {
+            data[key] = [data[key], value];
+          }
+        } else {
+          data[key] = value;
+        }
+      }
+      
+      document.getElementById('form-output').textContent = 
+        'Form data: ' + JSON.stringify(data, null, 2);
+    });
+    
+    // Reset button handler
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      document.getElementById('test-form').reset();
+      document.getElementById('form-output').textContent = '';
+    });
+    
+    // Select all / indeterminate pattern
+    const selectAll = document.getElementById('select-all');
+    const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+    
+    // Update select all state based on items
+    function updateSelectAll() {
+      const checkedCount = Array.from(itemCheckboxes).filter(cb => cb.checked).length;
+      
+      if (checkedCount === 0) {
+        selectAll.checked = false;
+        selectAll.indeterminate = false;
+      } else if (checkedCount === itemCheckboxes.length) {
+        selectAll.checked = true;
+        selectAll.indeterminate = false;
+      } else {
+        selectAll.checked = false;
+        selectAll.indeterminate = true;
+      }
+    }
+    
+    // Handle select all click
+    selectAll.addEventListener('change', (e) => {
+      const isChecked = e.target.checked;
+      itemCheckboxes.forEach(cb => {
+        cb.checked = isChecked;
+      });
+    });
+    
+    // Handle individual checkbox clicks
+    itemCheckboxes.forEach(cb => {
+      cb.addEventListener('change', updateSelectAll);
+    });
+    
+    // Initialize
+    updateSelectAll();
+    
+    console.log('✅ Checkbox component registered and ready');
+  </script>
+</body>
+</html>
