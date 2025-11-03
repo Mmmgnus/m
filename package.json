@@ -3,6 +3,7 @@
   "description": "M Design System - Complete design system with components, tokens, and documentation",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*",
     "apps/*"

@@ -1,0 +1,16 @@
+{
+  "name": "@frdh/m-tools",
+  "version": "0.0.1",
+  "description": "Development tools for M Design System",
+  "type": "module",
+  "exports": {
+    "./cem-plugins/examples-plugin": "./cem-plugins/examples-plugin.js"
+  },
+  "keywords": [
+    "custom-elements-manifest",
+    "cem-plugin",
+    "development-tools"
+  ],
+  "author": "Magnus Fredlundh (magnus.dev)",
+  "license": "ISC"
+}
