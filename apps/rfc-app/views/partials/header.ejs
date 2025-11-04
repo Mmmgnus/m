@@ -1,0 +1,15 @@
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand">RFC Library</a>
+    <nav>
+      <% if (currentUser) { %>
+        <span class="welcome">Signed in as <strong><%= currentUser.email %></strong></span>
+        <form action="/logout" method="post">
+          <button type="submit" class="btn btn-secondary">Sign out</button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="btn">Sign in</a>
+      <% } %>
+    </nav>
+  </div>
+</header>

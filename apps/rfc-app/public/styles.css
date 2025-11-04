@@ -1,0 +1,269 @@
+:root {
+  color-scheme: light;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #f6f7fb;
+  color: #1f2933;
+}
+
+body {
+  margin: 0;
+  background-color: var(--page-bg, #f6f7fb);
+}
+
+a {
+  color: #2b5bd7;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem;
+}
+
+.site-header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 2rem;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1f2933;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+nav form {
+  margin: 0;
+}
+
+.btn,
+.btn-secondary,
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: #2b5bd7;
+  color: white;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: #2148a8;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #1f2933;
+  border: 1px solid #cbd5e1;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: #e2e8f0;
+}
+
+.btn-link {
+  background: none;
+  color: #2b5bd7;
+  padding: 0;
+}
+
+.hero {
+  text-align: center;
+  padding: 2rem 0 1rem;
+}
+
+.hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+.rfc-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.rfc-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.rfc-card h2 {
+  margin-top: 0;
+}
+
+.rfc-card .status {
+  font-size: 0.9rem;
+  color: #1d4ed8;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.rfc-card .status strong {
+  font-weight: 600;
+}
+
+.rfc-card .summary {
+  color: #475569;
+}
+
+.rfc-card .meta {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.flash-messages {
+  margin-bottom: 1rem;
+}
+
+.flash {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.flash.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.flash.error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.rfc-detail {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  margin-bottom: 2rem;
+}
+
+.rfc-detail .meta {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.rfc-detail .content h1,
+.rfc-detail .content h2,
+.rfc-detail .content h3 {
+  margin-top: 1.5rem;
+}
+
+.rfc-detail .content p {
+  line-height: 1.6;
+}
+
+.comments {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.comment-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+textarea {
+  font: inherit;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-page {
+  max-width: 480px;
+}
+
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form-description {
+  margin: 0;
+  color: #475569;
+}
+
+.auth-link {
+  margin-top: 1rem;
+  color: #475569;
+}
+
+.not-found {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+@media (max-width: 640px) {
+  .site-header .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

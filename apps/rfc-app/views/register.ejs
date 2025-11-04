@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account · RFC Library</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <% include partials/header %>
+
+    <main class="container form-page">
+      <% include partials/flash %>
+
+      <h1>Create an account</h1>
+      <form method="post" action="/register" class="form-card">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required value="<%= form.email %>" />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="8" />
+
+        <button type="submit" class="btn">Create account</button>
+      </form>
+
+      <p class="auth-link">Already have an account? <a href="/login">Sign in</a>.</p>
+    </main>
+  </body>
+</html>

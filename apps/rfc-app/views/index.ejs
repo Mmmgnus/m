@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RFC Library</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <% include partials/header %>
+
+    <main class="container">
+      <% include partials/flash %>
+
+      <section class="hero">
+        <h1>Request for Comments</h1>
+        <p>Explore current proposals and contribute feedback to shape the design system.</p>
+      </section>
+
+      <section class="rfc-list">
+        <% if (!rfcs.length) { %>
+          <p>No RFCs found.</p>
+        <% } %>
+
+        <% rfcs.forEach(rfc => { %>
+          <article class="rfc-card">
+            <h2><a href="/rfc/<%= rfc.slug %>"><%= rfc.title %></a></h2>
+            <% if (rfc.metadata.status) { %>
+              <p class="status">Status: <strong><%= rfc.metadata.status %></strong></p>
+            <% } %>
+            <p class="summary"><%= rfc.summary %></p>
+            <p class="meta">
+              Published <time datetime="<%= rfc.createdAt %>"><%= new Date(rfc.createdAt).toLocaleDateString() %></time>
+              · <%= rfc.commentCount %> comment<%= rfc.commentCount === 1 ? '' : 's' %>
+            </p>
+            <a class="btn btn-link" href="/rfc/<%= rfc.slug %>">Read RFC</a>
+          </article>
+        <% }); %>
+      </section>
+    </main>
+  </body>
+</html>

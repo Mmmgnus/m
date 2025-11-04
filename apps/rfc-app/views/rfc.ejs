@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= rfc.title %> · RFC Library</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <% include partials/header %>
+
+    <main class="container">
+      <% include partials/flash %>
+
+      <article class="rfc-detail">
+        <h1><%= rfc.title %></h1>
+        <p class="meta">
+          <% if (rfc.metadata.status) { %>
+            Status: <strong><%= rfc.metadata.status %></strong>
+            ·
+          <% } %>
+          Published <time datetime="<%= rfc.createdAt %>"><%= new Date(rfc.createdAt).toLocaleString() %></time>
+          <% if (rfc.metadata.author) { %>
+            · Author: <strong><%= rfc.metadata.author %></strong>
+          <% } %>
+          <% if (rfc.updatedAt && rfc.updatedAt !== rfc.createdAt) { %>
+            · Updated <time datetime="<%= rfc.updatedAt %>"><%= new Date(rfc.updatedAt).toLocaleString() %></time>
+          <% } %>
+        </p>
+        <div class="content"><%- markdownToHtml(rfc.content) %></div>
+      </article>
+
+      <section class="comments">
+        <h2>Comments</h2>
+
+        <% if (!comments.length) { %>
+          <p>No comments yet. Be the first to share your thoughts.</p>
+        <% } else { %>
+          <ul class="comment-list">
+            <% comments.forEach(comment => { %>
+              <li>
+                <div class="comment-header">
+                  <span class="author"><%= comment.email %></span>
+                  <time datetime="<%= comment.created_at %>"><%= new Date(comment.created_at).toLocaleString() %></time>
+                </div>
+                <p><%= comment.body %></p>
+              </li>
+            <% }); %>
+          </ul>
+        <% } %>
+
+        <% if (currentUser) { %>
+          <form class="comment-form" action="/rfc/<%= rfc.slug %>/comments" method="post">
+            <label for="body">Add a comment</label>
+            <textarea id="body" name="body" required rows="4"></textarea>
+            <button type="submit" class="btn">Post comment</button>
+          </form>
+        <% } else { %>
+          <p class="comment-cta">
+            <a href="/login">Sign in</a> or <a href="/register">create an account</a> to join the discussion.
+          </p>
+        <% } %>
+      </section>
+    </main>
+  </body>
+</html>

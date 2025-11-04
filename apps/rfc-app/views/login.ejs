@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in · RFC Library</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <% include partials/header %>
+
+    <main class="container form-page">
+      <% include partials/flash %>
+
+      <h1>Sign in</h1>
+      <form method="post" action="/login/start" class="form-card">
+        <p class="form-description">
+          Enter your email address and we'll send a one-time code to finish signing in.
+        </p>
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required value="<%= form.email %>" />
+
+        <button type="submit" class="btn">Send sign-in code</button>
+      </form>
+
+      <% if (awaitingCode) { %>
+        <form method="post" action="/login/verify" class="form-card">
+          <p class="form-description">Enter the 6-digit code from your email.</p>
+          <label for="code">Sign-in code</label>
+          <input
+            type="text"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            id="code"
+            name="code"
+            required
+          />
+          <button type="submit" class="btn">Verify and sign in</button>
+        </form>
+      <% } %>
+
+      <p class="auth-link">New here? Request a code above to create your account.</p>
+    </main>
+  </body>
+</html>
