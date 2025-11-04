@@ -17,21 +17,23 @@ M Design System is built on the principle of staying as close to web standards a
 m/
 ├── packages/
 │   ├── components/       # Web components library
-│   │   ├── src/
-│   │   │   ├── button/   # Component directories
-│   │   │   └── auto-register.js
+│   │   ├── src/          # Component source files
+│   │   ├── test/         # Manual test pages
 │   │   ├── types/        # Generated TypeScript definitions
 │   │   └── custom-elements.json
 │   └── css/             # CSS utilities & tokens (planned)
 ├── apps/
-│   ├── docs/            # Documentation site
+│   ├── docs/            # Documentation site generator
 │   └── playground/      # Interactive examples (planned)
 ├── docs/                # Project documentation
+│   ├── rfc/             # Request for Comments (RFCs)
+│   ├── adr/             # Architecture Decision Records (ADRs)
+│   ├── templates/       # RFC and component templates
 │   ├── ARCHITECTURE.md  # Technical decisions & patterns
 │   ├── COMPONENT_GUIDELINES.md # How to create components
-│   ├── DEVELOPMENT.md   # Development workflows
-│   └── templates/       # Component templates
+│   └── DEVELOPMENT.md   # Development workflows
 ├── .warp/               # AI-specific context
+├── AGENTS.md            # AI agent workflow guide
 └── tools/               # Development utilities
 ```
 
@@ -92,7 +94,11 @@ import '@frdh/m-components/auto-register';
 
 ## Available Components
 
-- **MButton** (`m-button`) - Simple button component ✅
+- **m-button** - Button wrapper with variants and sizes ✅
+- **m-input** - Text input with label, error, and help text ✅
+- **m-checkbox** - Checkbox with label support ✅
+- **m-radio** - Radio button with label support ✅
+- **m-radio-group** - Radio button group wrapper ✅
 - More components coming soon...
 
 ## Documentation
@@ -102,11 +108,28 @@ import '@frdh/m-components/auto-register';
 - [**Component Guidelines**](./docs/COMPONENT_GUIDELINES.md) - How to create new components  
 - [**Development Guide**](./docs/DEVELOPMENT.md) - Common workflows and troubleshooting
 
+### Design & Planning
+- [**RFCs**](./docs/rfc/README.md) - Request for Comments for new components and features
+- [**ADRs**](./docs/adr/README.md) - Architecture Decision Records
+- [**GitHub Discussions**](https://github.com/Mmmgnus/m/discussions) - Discuss RFCs and ask questions
+
 ### For AI Assistance
+- [**AGENTS.md**](./AGENTS.md) - Complete AI agent workflow guide
 - [**Project Context**](./.warp/project-context.md) - AI-specific context and constraints
 - [**Component Patterns**](./.warp/component-patterns.md) - Common patterns and tasks
 
 ## Creating Components
+
+### 1. Create an RFC
+Before implementing a new component, create an RFC to gather feedback:
+
+```bash
+cp docs/templates/rfc.template.md docs/rfc/YYYY-MM-DD-m-component-name.md
+```
+
+See [RFC Guide](./docs/rfc/README.md) for the full process.
+
+### 2. Implement the Component
 
 1. **Use the template**:
    ```bash
@@ -115,12 +138,18 @@ import '@frdh/m-components/auto-register';
 
 2. **Follow the guidelines** in [`docs/COMPONENT_GUIDELINES.md`](./docs/COMPONENT_GUIDELINES.md)
 
-3. **Update package exports** and auto-register
+3. **Update package exports** in `packages/components/package.json`
 
-4. **Generate manifests**:
+4. **Update auto-register** in `packages/components/src/auto-register.js`
+
+5. **Create test page** in `packages/components/test/your-component.html`
+
+6. **Generate manifests**:
    ```bash
    npm run build
    ```
+
+For complete workflow, see [AGENTS.md](./AGENTS.md).
 
 ## Documentation Site
 
