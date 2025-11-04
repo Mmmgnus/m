@@ -5,6 +5,8 @@
 **Created:** 2025-11-03  
 **Updated:** 2025-11-03
 
+> 💬 **[Discuss this RFC](https://github.com/Mmmgnus/m/discussions/new?category=rfcs&title=RFC:%20m-checkbox%20Component)** - Share feedback, ask questions, or suggest improvements
+
 ---
 
 ## Summary

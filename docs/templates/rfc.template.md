@@ -5,6 +5,8 @@
 **Created:** YYYY-MM-DD  
 **Updated:** YYYY-MM-DD
 
+> 💬 **[Discuss this RFC](https://github.com/Mmmgnus/m/discussions/new?category=rfcs&title=RFC:%20[COMPONENT_NAME])** - Share feedback, ask questions, or suggest improvements
+
 ---
 
 ## Summary
